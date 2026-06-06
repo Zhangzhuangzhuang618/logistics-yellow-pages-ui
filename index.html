@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>物流黄页小程序 · UI原型</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#1677ff;--primary-dark:#0958d9;--primary-light:#e6f4ff;
+  --orange:#fa8c16;--orange-light:#fff7e6;
+  --green:#52c41a;--green-light:#f6ffed;
+  --red:#ff4d4f;--red-light:#fff2f0;
+  --bg:#f5f5f5;--card:#fff;--border:#f0f0f0;
+  --text:#1a1a2e;--text-secondary:#666;--text-hint:#999;
+  --radius:12px;--radius-sm:8px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:#e8e8e8;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.phone{width:390px;height:844px;background:var(--bg);border-radius:24px;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.screen{width:100%;height:100%;overflow-y:auto;overflow-x:hidden;position:relative;padding-bottom:60px;-webkit-overflow-scrolling:touch}
+.screen::-webkit-scrollbar{display:none}
+
+/* Status bar */
+.status-bar{height:44px;background:var(--primary);display:flex;align-items:center;justify-content:space-between;padding:0 20px;color:#fff;font-size:12px;font-weight:500;position:sticky;top:0;z-index:100}
+.status-bar .time{font-weight:600}
+.status-bar .icons{display:flex;gap:6px;align-items:center}
+
+/* Nav bar */
+.nav-bar{height:44px;background:var(--primary);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;font-weight:600;position:sticky;top:44px;z-index:99}
+.nav-bar .back{position:absolute;left:12px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px}
+.nav-bar .action{position:absolute;right:16px;font-size:14px;font-weight:400;cursor:pointer}
+
+/* Tab bar */
+.tab-bar{position:absolute;bottom:0;left:0;right:0;height:56px;background:var(--card);display:flex;border-top:1px solid var(--border);z-index:100;padding-bottom:env(safe-area-inset-bottom,0)}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;color:var(--text-hint);font-size:10px;transition:color .2s}
+.tab-item.active{color:var(--primary)}
+.tab-item .icon{font-size:22px;line-height:1}
+.tab-item .publish-btn{width:44px;height:44px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;margin-top:-18px;box-shadow:0 4px 12px rgba(22,119,255,.35)}
+
+/* Page */
+.page{display:none}
+.page.active{display:block}
+
+/* Cards */
+.card{background:var(--card);border-radius:var(--radius);padding:16px;margin:12px 16px}
+.card-title{font-size:16px;font-weight:600;color:var(--text);margin-bottom:12px}
+.section-title{font-size:15px;font-weight:600;color:var(--text);padding:16px 16px 8px}
+
+/* Search */
+.search-box{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:24px;padding:10px 16px;margin:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.search-box input{border:none;outline:none;flex:1;font-size:14px;color:var(--text);background:transparent}
+.search-box input::placeholder{color:var(--text-hint)}
+.search-box .search-icon{font-size:18px;color:var(--text-hint)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 20px;border-radius:20px;font-size:14px;font-weight:500;border:none;cursor:pointer;transition:all .2s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:active{background:var(--primary-dark)}
+.btn-outline{background:transparent;color:var(--primary);border:1px solid var(--primary)}
+.btn-outline:active{background:var(--primary-light)}
+.btn-block{width:100%}
+.btn-sm{padding:6px 14px;font-size:12px;border-radius:14px}
+.btn-lg{padding:12px 24px;font-size:16px;border-radius:24px}
+
+/* Tags */
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;line-height:18px}
+.tag-blue{background:var(--primary-light);color:var(--primary)}
+.tag-orange{background:var(--orange-light);color:var(--orange)}
+.tag-green{background:var(--green-light);color:var(--green)}
+
+/* Badge */
+.badge{position:absolute;top:-4px;right:-8px;min-width:16px;height:16px;background:var(--red);color:#fff;border-radius:8px;font-size:10px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+
+/* ============ HOME PAGE ============ */
+.home-header{background:linear-gradient(135deg,#1677ff,#4096ff);padding:16px 16px 24px;position:relative;overflow:hidden}
+.home-header::after{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:rgba(255,255,255,.08);border-radius:50%}
+.home-header .location{color:rgba(255,255,255,.8);font-size:13px;display:flex;align-items:center;gap:4px;margin-bottom:12px}
+.home-header .location .city{font-size:16px;font-weight:600;color:#fff}
+
+.home-search{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.95);border-radius:24px;padding:10px 16px;position:relative;z-index:1}
+.home-search input{border:none;outline:none;flex:1;font-size:14px;color:var(--text);background:transparent}
+.home-search input::placeholder{color:var(--text-hint)}
+.home-search .icon{font-size:18px;color:var(--text-hint)}
+.home-search .scan{font-size:20px;color:var(--primary);padding-left:8px;border-left:1px solid var(--border)}
+
+.dual-entry{display:flex;gap:12px;margin:16px;margin-top:-8px;position:relative;z-index:2}
+.entry-card{flex:1;background:var(--card);border-radius:var(--radius);padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s}
+.entry-card:active{transform:scale(.97);box-shadow:0 1px 6px rgba(0,0,0,.08)}
+.entry-card .entry-icon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px}
+.entry-card:first-child .entry-icon{background:var(--primary-light)}
+.entry-card:last-child .entry-icon{background:var(--orange-light)}
+.entry-card .entry-title{font-size:16px;font-weight:600;color:var(--text)}
+.entry-card .entry-desc{font-size:12px;color:var(--text-secondary)}
+
+.quick-actions{display:flex;gap:0;margin:0 16px;background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.quick-action{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;cursor:pointer;transition:background .2s}
+.quick-action:active{background:#fafafa}
+.quick-action .qa-icon{font-size:22px}
+.quick-action .qa-label{font-size:11px;color:var(--text-secondary)}
+
+.banner-area{margin:16px;background:var(--card);border-radius:var(--radius);height:120px;overflow:hidden;position:relative;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.banner-area .banner-img{width:100%;height:100%;object-fit:cover;background:linear-gradient(135deg,#e6f4ff,#bae0ff)}
+.banner-area .banner-dots{position:absolute;bottom:8px;right:12px;display:flex;gap:6px}
+.banner-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5)}
+.banner-dot.active{background:#fff;width:18px;border-radius:3px}
+.banner-area .banner-label{position:absolute;top:50%;left:24px;transform:translateY(-50%)}
+.banner-area .banner-label .bl-title{font-size:18px;font-weight:700;color:#1677ff}
+.banner-area .banner-label .bl-sub{font-size:12px;color:#666;margin-top:4px}
+
+.hot-tabs{display:flex;gap:0;margin:0 16px}
+.hot-tab{flex:1;text-align:center;padding:10px 0;font-size:14px;font-weight:500;color:var(--text-secondary);border-bottom:2px solid transparent;cursor:pointer;transition:all .2s}
+.hot-tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+
+.hot-list{margin:0 16px 16px}
+.hot-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.hot-item:last-child{border-bottom:none}
+.hot-item .rank{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;background:var(--text-hint)}
+.hot-item:nth-child(1) .rank{background:var(--red)}
+.hot-item:nth-child(2) .rank{background:var(--orange)}
+.hot-item:nth-child(3) .rank{background:#ffc53d}
+.hot-item .route{flex:1;font-size:14px;color:var(--text)}
+.hot-item .count{font-size:12px;color:var(--text-hint)}
+
+/* ============ FIND LOGISTICS PAGE ============ */
+.logistics-search-area{background:var(--primary);padding:12px 16px}
+.route-picker{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.95);border-radius:var(--radius);padding:8px 12px}
+.route-from,.route-to{flex:1;display:flex;flex-direction:column;gap:2px;cursor:pointer}
+.route-label{font-size:10px;color:var(--text-hint)}
+.route-city{font-size:16px;font-weight:600;color:var(--text)}
+.route-swap{width:32px;height:32px;background:var(--primary-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0}
+.route-go{width:36px;height:36px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;flex-shrink:0}
+
+.filter-bar{display:flex;gap:0;background:var(--card);border-bottom:1px solid var(--border)}
+.filter-item{flex:1;text-align:center;padding:12px 0;font-size:13px;color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px}
+.filter-item.active{color:var(--primary);font-weight:500}
+
+.company-card{background:var(--card);margin:8px 16px;border-radius:var(--radius);padding:16px;box-shadow:0 1px 6px rgba(0,0,0,.04);cursor:pointer}
+.company-card:active{background:#fafafa}
+.company-header{display:flex;gap:12px;align-items:flex-start}
+.company-logo{width:48px;height:48px;border-radius:var(--radius-sm);background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.company-info{flex:1;min-width:0}
+.company-name{font-size:15px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+.company-name .vip-badge{font-size:10px;padding:1px 6px;border-radius:3px;background:linear-gradient(135deg,#ffd700,#ffb800);color:#7a6200;font-weight:500}
+.company-tags{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.company-meta{display:flex;gap:16px;margin-top:8px;font-size:12px;color:var(--text-secondary)}
+.company-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.company-footer .price{font-size:13px;color:var(--text-secondary)}
+.company-footer .price strong{color:var(--orange);font-size:16px}
+
+/* ============ COMPANY DETAIL ============ */
+.detail-header{background:linear-gradient(135deg,#1677ff,#4096ff);padding:20px 16px 24px;color:#fff}
+.detail-header .dh-company{display:flex;align-items:center;gap:12px}
+.detail-header .dh-logo{width:56px;height:56px;border-radius:var(--radius-sm);background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:28px}
+.detail-header .dh-name{font-size:20px;font-weight:700}
+.detail-header .dh-tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.detail-header .dh-tag{padding:2px 8px;border-radius:4px;font-size:11px;background:rgba(255,255,255,.2);color:#fff}
+.detail-header .dh-meta{font-size:12px;color:rgba(255,255,255,.8);margin-top:8px}
+
+.detail-section{background:var(--card);margin:12px 16px;border-radius:var(--radius);padding:16px;box-shadow:0 1px 6px rgba(0,0,0,.04)}
+.detail-section .ds-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.detail-section .ds-title .icon{font-size:18px}
+
+.route-list .route-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.route-list .route-item:last-child{border-bottom:none}
+.route-item .ri-line{flex:1}
+.route-item .ri-line .ri-route{font-size:14px;font-weight:500;color:var(--text)}
+.route-item .ri-line .ri-time{font-size:12px;color:var(--text-hint)}
+.route-item .ri-tags{display:flex;gap:4px}
+
+.purchase-service{background:var(--orange-light);border-radius:var(--radius-sm);padding:12px;margin-top:12px}
+.purchase-service .ps-title{font-size:13px;font-weight:600;color:var(--orange);margin-bottom:6px}
+.purchase-service .ps-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.purchase-service .ps-info{font-size:12px;color:var(--text-secondary);line-height:1.8}
+
+.merchant-mini-list{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
+.merchant-mini-card{min-width:100px;background:var(--bg);border-radius:var(--radius-sm);padding:10px;text-align:center;cursor:pointer}
+.merchant-mini-card .mm-thumb{width:48px;height:48px;border-radius:8px;background:#e8e8e8;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.merchant-mini-card .mm-name{font-size:12px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.merchant-mini-card .mm-market{font-size:10px;color:var(--text-hint)}
+
+.detail-sticky-bottom{position:sticky;bottom:0;background:var(--card);padding:12px 16px;display:flex;gap:10px;border-top:1px solid var(--border);z-index:10;padding-bottom:max(12px,env(safe-area-inset-bottom))}
+.detail-sticky-bottom .btn{flex:1}
+.btn-phone{background:var(--green);color:#fff}
+
+/* ============ FIND MERCHANT PAGE ============ */
+.merchant-search-area{background:var(--orange);padding:12px 16px}
+.merchant-categories{display:flex;flex-wrap:wrap;gap:8px;margin:16px}
+.cat-chip{padding:8px 16px;background:var(--card);border-radius:20px;font-size:13px;color:var(--text);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .2s}
+.cat-chip:active,.cat-chip.active{background:var(--orange-light);color:var(--orange);border-color:var(--orange)}
+
+.merchant-card{background:var(--card);margin:8px 16px;border-radius:var(--radius);padding:16px;box-shadow:0 1px 6px rgba(0,0,0,.04);cursor:pointer;display:flex;gap:12px}
+.merchant-card:active{background:#fafafa}
+.merchant-card .mc-thumb{width:64px;height:64px;border-radius:var(--radius-sm);background:#f5f5f5;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px}
+.merchant-card .mc-info{flex:1;min-width:0}
+.merchant-card .mc-name{font-size:15px;font-weight:600;color:var(--text)}
+.merchant-card .mc-market{font-size:12px;color:var(--text-secondary);margin-top:4px}
+.merchant-card .mc-tags{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.merchant-card .mc-logistics{font-size:11px;color:var(--text-hint);margin-top:6px}
+
+.market-browser{margin:16px}
+.market-browser .mb-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px}
+.market-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.market-item{background:var(--card);border-radius:var(--radius-sm);padding:12px;cursor:pointer;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.market-item:active{background:#fafafa}
+.market-item .mi-icon{font-size:28px;margin-bottom:6px}
+.market-item .mi-name{font-size:13px;font-weight:500;color:var(--text)}
+.market-item .mi-count{font-size:11px;color:var(--text-hint)}
+
+/* ============ MERCHANT DETAIL PAGE ============ */
+.md-header{position:relative;height:180px;background:linear-gradient(135deg,#fa8c16,#ffc53d);display:flex;align-items:flex-end;padding:16px}
+.md-header .md-thumb{width:72px;height:72px;border-radius:var(--radius-sm);background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:32px}
+.md-header .md-name-area{margin-left:12px;color:#fff}
+.md-header .md-name{font-size:20px;font-weight:700}
+.md-header .md-market{font-size:13px;opacity:.9}
+
+/* ============ XIANG CIRCLE PAGE ============ */
+.xc-header{background:var(--card);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:99;border-bottom:1px solid var(--border)}
+.xc-header .xc-title{font-size:18px;font-weight:700;color:var(--text)}
+.xc-header .xc-actions{display:flex;gap:12px;align-items:center}
+.xc-header .xc-publish{width:32px;height:32px;background:var(--primary);border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer}
+
+.xc-tabs{display:flex;background:var(--card);padding:0 16px;border-bottom:1px solid var(--border);position:sticky;top:54px;z-index:98;gap:0}
+.xc-tab{flex:1;text-align:center;padding:10px 0;font-size:13px;color:var(--text-secondary);cursor:pointer;position:relative}
+.xc-tab.active{color:var(--primary);font-weight:600}
+.xc-tab.active::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:20px;height:3px;background:var(--primary);border-radius:2px}
+
+.xc-feed{padding:8px 16px}
+.xc-post{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.xc-post .xp-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.xc-post .xp-avatar{width:36px;height:36px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:18px}
+.xc-post .xp-user{flex:1}
+.xc-post .xp-name{font-size:14px;font-weight:600;color:var(--text)}
+.xc-post .xp-role{font-size:11px;color:var(--text-hint)}
+.xc-post .xp-role-badge{font-size:10px;padding:1px 6px;border-radius:3px}
+.xc-post .xp-role-badge.owner{background:var(--orange-light);color:var(--orange)}
+.xc-post .xp-role-badge.logistics{background:var(--primary-light);color:var(--primary)}
+.xc-post .xp-content{font-size:14px;color:var(--text);line-height:1.6;margin-bottom:8px}
+.xc-post .xp-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.xc-post .xp-footer{display:flex;gap:20px;font-size:12px;color:var(--text-hint)}
+.xc-post .xp-footer span{cursor:pointer;display:flex;align-items:center;gap:4px}
+
+/* Publish modal */
+.publish-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:flex-end;justify-content:center}
+.publish-panel{width:390px;background:var(--card);border-radius:16px 16px 0 0;padding:20px 16px;max-height:80vh;overflow-y:auto}
+.publish-panel .pp-title{font-size:16px;font-weight:600;text-align:center;margin-bottom:16px}
+.publish-panel textarea{width:100%;height:120px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;font-size:14px;resize:none;outline:none;font-family:inherit}
+.publish-panel textarea:focus{border-color:var(--primary)}
+.publish-panel .pp-type{display:flex;gap:10px;margin:12px 0}
+.pp-type-option{flex:1;text-align:center;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;cursor:pointer}
+.pp-type-option.active{border-color:var(--primary);background:var(--primary-light);color:var(--primary)}
+.pp-tag-input{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.pp-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:var(--bg);border-radius:12px;font-size:12px;color:var(--text-secondary)}
+.pp-tag .remove{cursor:pointer;font-size:14px;line-height:1}
+.pp-add-tag{color:var(--primary);font-size:12px;cursor:pointer;padding:4px 10px}
+
+/* ============ MESSAGES PAGE ============ */
+.msg-list{margin-top:0}
+.msg-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--card);border-bottom:1px solid var(--border);cursor:pointer}
+.msg-item:active{background:#fafafa}
+.msg-avatar{width:44px;height:44px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;position:relative}
+.msg-avatar.system{background:var(--primary-light)}
+.msg-avatar.business{background:var(--orange-light)}
+.msg-content{flex:1;min-width:0}
+.msg-content .msg-name{font-size:15px;color:var(--text);display:flex;align-items:center;gap:6px}
+.msg-content .msg-preview{font-size:13px;color:var(--text-hint);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg-meta{text-align:right;flex-shrink:0}
+.msg-meta .msg-time{font-size:11px;color:var(--text-hint)}
+.msg-meta .msg-unread{display:inline-block;min-width:18px;height:18px;background:var(--red);color:#fff;border-radius:9px;font-size:10px;text-align:center;line-height:18px;padding:0 5px;margin-top:4px}
+
+/* Chat detail */
+.chat-messages{padding:16px;display:flex;flex-direction:column;gap:12px}
+.chat-bubble{max-width:75%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.5;word-break:break-word}
+.chat-bubble.received{background:var(--card);align-self:flex-start;border-bottom-left-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.chat-bubble.sent{background:var(--primary);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.chat-input-bar{position:sticky;bottom:0;background:var(--card);padding:10px 12px;display:flex;gap:8px;align-items:center;border-top:1px solid var(--border)}
+.chat-input-bar input{flex:1;border:none;outline:none;background:var(--bg);border-radius:20px;padding:8px 14px;font-size:14px}
+.chat-input-bar .send-btn{width:32px;height:32px;background:var(--primary);border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer}
+
+/* ============ PROFILE PAGE ============ */
+.profile-header{background:linear-gradient(135deg,#1677ff,#4096ff);padding:24px 16px 20px;display:flex;align-items:center;gap:14px;color:#fff}
+.profile-avatar{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:28px}
+.profile-info{flex:1}
+.profile-info .pi-name{font-size:18px;font-weight:700}
+.profile-info .pi-phone{font-size:13px;opacity:.8;margin-top:2px}
+
+.profile-menu{background:var(--card);margin:12px 16px;border-radius:var(--radius);overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.04)}
+.profile-menu-item{display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .2s}
+.profile-menu-item:last-child{border-bottom:none}
+.profile-menu-item:active{background:#fafafa}
+.profile-menu-item .pm-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.profile-menu-item .pm-text{flex:1;font-size:14px;color:var(--text)}
+.profile-menu-item .pm-arrow{color:var(--text-hint);font-size:14px}
+.profile-menu-item .pm-badge{font-size:11px;color:var(--text-hint)}
+
+/* Sub pages */
+.sub-page-header{display:flex;align-items:center;justify-content:center;padding:12px 16px;background:var(--card);font-size:16px;font-weight:600;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:99}
+.sub-page-header .back{position:absolute;left:12px;cursor:pointer;font-size:18px}
+
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;color:var(--text-hint)}
+.empty-state .empty-icon{font-size:56px;margin-bottom:16px}
+.empty-state .empty-text{font-size:14px}
+.empty-state .btn{margin-top:16px}
+
+/* Form */
+.form-group{margin-bottom:14px}
+.form-label{font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.form-label .required{color:var(--red)}
+.form-input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;outline:none;font-family:inherit}
+.form-input:focus{border-color:var(--primary)}
+.form-textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;outline:none;resize:vertical;font-family:inherit;min-height:80px}
+.form-textarea:focus{border-color:var(--primary)}
+.form-select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;outline:none;background:var(--card);font-family:inherit}
+.form-submit{margin-top:20px}
+
+/* Order card */
+.order-card{background:var(--card);margin:8px 16px;border-radius:var(--radius);padding:16px;box-shadow:0 1px 6px rgba(0,0,0,.04)}
+.order-card .oc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.order-card .oc-no{font-size:12px;color:var(--text-hint)}
+.order-card .oc-status{font-size:12px;font-weight:500}
+.order-card .oc-status.pending{color:var(--orange)}
+.order-card .oc-status.done{color:var(--green)}
+.order-card .oc-body{font-size:14px;color:var(--text);line-height:1.8}
+.order-card .oc-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.order-card .oc-time{font-size:11px;color:var(--text-hint)}
+
+/* History item */
+.history-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer}
+.history-item:active{background:#fafafa}
+.history-item .hi-icon{font-size:18px}
+.history-item .hi-info{flex:1}
+.history-item .hi-title{font-size:14px;color:var(--text)}
+.history-item .hi-time{font-size:11px;color:var(--text-hint)}
+.history-item .hi-delete{color:var(--text-hint);font-size:16px;cursor:pointer;padding:4px}
+
+/* Favorited route */
+.fav-route{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--card);margin:8px 16px;border-radius:var(--radius-sm)}
+.fav-route .fr-route{flex:1;font-size:14px;color:var(--text);font-weight:500}
+.fav-route .fr-count{font-size:12px;color:var(--text-hint)}
+.fav-route .fr-arrow{color:var(--text-hint)}
+
+/* Demand form */
+.demand-category-tags{display:flex;flex-wrap:wrap;gap:8px}
+.demand-cat{padding:6px 14px;border:1px solid var(--border);border-radius:16px;font-size:12px;cursor:pointer;transition:all .2s}
+.demand-cat.active{border-color:var(--primary);background:var(--primary-light);color:var(--primary)}
+.demand-item-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.demand-item-row input{flex:1;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none}
+.demand-item-row input:focus{border-color:var(--primary)}
+.demand-item-row .remove-row{color:var(--red);cursor:pointer;font-size:16px;padding:4px}
+.add-row-btn{color:var(--primary);font-size:12px;cursor:pointer;padding:8px 0;display:flex;align-items:center;gap:4px}
+
+/* Overlay for modals, selections */
+.overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:150;display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:390px;background:var(--card);border-radius:16px 16px 0 0;padding:16px;max-height:60vh;overflow-y:auto}
+.sheet .sheet-title{font-size:15px;font-weight:600;text-align:center;margin-bottom:12px}
+.sheet .sheet-option{padding:14px 0;text-align:center;font-size:14px;color:var(--text);border-bottom:1px solid var(--border);cursor:pointer}
+.sheet .sheet-option:active{color:var(--primary)}
+.sheet .sheet-option:last-child{border-bottom:none}
+.sheet .sheet-cancel{padding:14px 0;text-align:center;font-size:14px;color:var(--text-hint);margin-top:8px;cursor:pointer;border-top:6px solid var(--bg)}
+
+/* Toast */
+.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.75);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;z-index:999;pointer-events:none;opacity:0;transition:opacity .2s}
+.toast.show{opacity:1}
+
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="phone" id="app">
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ==================== SCREENS ==================== -->
+
+  <!-- HOME -->
+  <div class="screen page active" id="page-home">
+    <div class="home-header">
+      <div class="location">📍 当前城市 <span class="city">长沙 ▼</span></div>
+      <div class="home-search">
+        <span class="icon">🔍</span>
+        <input placeholder="搜线路、搜商家、搜品类..." readonly onclick="navigateTo('logistics-search')">
+        <span class="scan" onclick="showToast('扫码功能开发中')">📷</span>
+      </div>
+    </div>
+
+    <div class="dual-entry">
+      <div class="entry-card" onclick="navigateTo('logistics-search')">
+        <div class="entry-icon">🚚</div>
+        <div class="entry-title">找物流</div>
+        <div class="entry-desc">专线黄页 · 直达全国</div>
+      </div>
+      <div class="entry-card" onclick="navigateTo('merchant-search')">
+        <div class="entry-icon">🏪</div>
+        <div class="entry-title">找商家</div>
+        <div class="entry-desc">批发货源 · 采购+运输</div>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <div class="quick-action" onclick="navigateTo('logistics-search')">
+        <div class="qa-icon">📍</div>
+        <div class="qa-label">附近专线</div>
+      </div>
+      <div class="quick-action" onclick="navigateTo('merchant-search')">
+        <div class="qa-icon">🏭</div>
+        <div class="qa-label">产地货源</div>
+      </div>
+      <div class="quick-action" onclick="navigateTo('merchant-search')">
+        <div class="qa-icon">📦</div>
+        <div class="qa-label">品类浏览</div>
+      </div>
+      <div class="quick-action" onclick="navigateTo('demand-form')">
+        <div class="qa-icon">📋</div>
+        <div class="qa-label">委托采购</div>
+      </div>
+    </div>
+
+    <div class="banner-area">
+      <div class="banner-img" style="background:linear-gradient(135deg,#e6f4ff 0%,#bae0ff 50%,#d6e4ff 100%);display:flex;align-items:center;justify-content:center">
+        <div style="text-align:center">
+          <div style="font-size:20px;font-weight:700;color:#1677ff">🚛 湖南精品专线</div>
+          <div style="font-size:12px;color:#666;margin-top:4px">认证物流 · 靠谱直达 · 全省覆盖</div>
+        </div>
+      </div>
+      <div class="banner-dots">
+        <span class="banner-dot active"></span>
+        <span class="banner-dot"></span>
+        <span class="banner-dot"></span>
+      </div>
+    </div>
+
+    <div class="hot-tabs">
+      <div class="hot-tab active">🔥 热门线路</div>
+      <div class="hot-tab">🏷️ 热门品类</div>
+    </div>
+
+    <div class="hot-list">
+      <div class="hot-item" onclick="navigateTo('logistics-results')"><span class="rank">1</span><span class="route">长沙 → 广州</span><span class="count">38条专线</span></div>
+      <div class="hot-item" onclick="navigateTo('logistics-results')"><span class="rank">2</span><span class="route">长沙 → 深圳</span><span class="count">32条专线</span></div>
+      <div class="hot-item" onclick="navigateTo('logistics-results')"><span class="rank">3</span><span class="route">长沙 → 武汉</span><span class="count">27条专线</span></div>
+      <div class="hot-item" onclick="navigateTo('logistics-results')"><span class="rank">4</span><span class="route">长沙 → 上海</span><span class="count">25条专线</span></div>
+      <div class="hot-item" onclick="navigateTo('logistics-results')"><span class="rank">5</span><span class="route">株洲 → 广州</span><span class="count">21条专线</span></div>
+    </div>
+  </div>
+
+  <!-- XIANG CIRCLE -->
+  <div class="screen page" id="page-xiang">
+    <div class="xc-header">
+      <div class="xc-title">🏘️ 湘圈</div>
+      <div class="xc-actions">
+        <span style="font-size:18px;cursor:pointer" onclick="showToast('搜索功能开发中')">🔍</span>
+        <div class="xc-publish" onclick="togglePublish()">+</div>
+      </div>
+    </div>
+    <div class="xc-tabs">
+      <div class="xc-tab active" onclick="switchXcTab(this,'all')">全部</div>
+      <div class="xc-tab" onclick="switchXcTab(this,'cargo')">货主圈</div>
+      <div class="xc-tab" onclick="switchXcTab(this,'logistics')">物流圈</div>
+    </div>
+    <div class="xc-feed" id="xc-feed">
+      <!-- Posts rendered by JS -->
+    </div>
+  </div>
+
+  <!-- MESSAGES -->
+  <div class="screen page" id="page-messages">
+    <div class="sub-page-header">消息</div>
+    <div class="msg-list">
+      <div class="msg-item" onclick="navigateTo('chat-detail')">
+        <div class="msg-avatar system">📢</div>
+        <div class="msg-content">
+          <div class="msg-name">系统通知 <span class="tag tag-blue">新</span></div>
+          <div class="msg-preview">欢迎使用物流黄页小程序！湖南专线已上线...</div>
+        </div>
+        <div class="msg-meta"><div class="msg-time">今天</div><div class="msg-unread">1</div></div>
+      </div>
+      <div class="msg-item" onclick="navigateTo('chat-detail')">
+        <div class="msg-avatar business">🏢</div>
+        <div class="msg-content">
+          <div class="msg-name">长沙顺达物流</div>
+          <div class="msg-preview">您好，您的代采买需求已收到，我这边确认一下...</div>
+        </div>
+        <div class="msg-meta"><div class="msg-time">昨天</div></div>
+      </div>
+      <div class="msg-item" onclick="navigateTo('chat-detail')">
+        <div class="msg-avatar business" style="background:#f6ffed">📋</div>
+        <div class="msg-content">
+          <div class="msg-name">采购进度提醒</div>
+          <div class="msg-preview">您的采购委托（单号 PC20260605001）已发货</div>
+        </div>
+        <div class="msg-meta"><div class="msg-time">06-05</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="screen page" id="page-profile">
+    <div class="profile-header" onclick="showToast('个人资料编辑开发中')">
+      <div class="profile-avatar">👤</div>
+      <div class="profile-info">
+        <div class="pi-name">货主张先生</div>
+        <div class="pi-phone">138****6789</div>
+      </div>
+      <div style="font-size:14px;opacity:.7">›</div>
+    </div>
+
+    <div class="profile-menu">
+      <div class="profile-menu-item" onclick="navigateTo('merchant-register')">
+        <div class="pm-icon" style="background:var(--orange-light)">🏪</div>
+        <div class="pm-text">商家入驻</div>
+        <div class="pm-arrow">›</div>
+      </div>
+      <div class="profile-menu-item" onclick="navigateTo('fav-routes')">
+        <div class="pm-icon" style="background:var(--primary-light)">⭐</div>
+        <div class="pm-text">线路收藏</div>
+        <div class="pm-badge">3条</div>
+        <div class="pm-arrow">›</div>
+      </div>
+      <div class="profile-menu-item" onclick="navigateTo('my-orders')">
+        <div class="pm-icon" style="background:var(--green-light)">📋</div>
+        <div class="pm-text">我的订单</div>
+        <div class="pm-badge">2个进行中</div>
+        <div class="pm-arrow">›</div>
+      </div>
+      <div class="profile-menu-item" onclick="navigateTo('browsing-history')">
+        <div class="pm-icon" style="background:#f0f0f0">🕐</div>
+        <div class="pm-text">浏览记录</div>
+        <div class="pm-arrow">›</div>
+      </div>
+    </div>
+
+    <div class="profile-menu">
+      <div class="profile-menu-item" onclick="showToast('设置开发中')">
+        <div class="pm-icon" style="background:#f0f0f0">⚙️</div>
+        <div class="pm-text">设置</div>
+        <div class="pm-arrow">›</div>
+      </div>
+      <div class="profile-menu-item" onclick="showToast('关于我们')">
+        <div class="pm-icon" style="background:#f0f0f0">ℹ️</div>
+        <div class="pm-text">关于我们</div>
+        <div class="pm-arrow">›</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SUB PAGES ==================== -->
+
+  <!-- Logistics Search -->
+  <div class="screen page" id="page-logistics-search">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>找物流</div>
+    <div class="logistics-search-area">
+      <div class="route-picker">
+        <div class="route-from" onclick="showCityPicker('from')">
+          <span class="route-label">出发地</span>
+          <span class="route-city" id="from-city">长沙</span>
+        </div>
+        <div class="route-swap" onclick="swapCities()">⇄</div>
+        <div class="route-to" onclick="showCityPicker('to')">
+          <span class="route-label">目的地</span>
+          <span class="route-city" id="to-city">广州</span>
+        </div>
+        <div class="route-go" onclick="navigateTo('logistics-results')">→</div>
+      </div>
+    </div>
+    <div class="section-title">📍 热门出发城市</div>
+    <div style="padding:0 16px;display:flex;flex-wrap:wrap;gap:8px">
+      <span class="cat-chip active" onclick="setFromCity(this,'长沙')">长沙</span>
+      <span class="cat-chip" onclick="setFromCity(this,'株洲')">株洲</span>
+      <span class="cat-chip" onclick="setFromCity(this,'湘潭')">湘潭</span>
+      <span class="cat-chip" onclick="setFromCity(this,'衡阳')">衡阳</span>
+      <span class="cat-chip" onclick="setFromCity(this,'岳阳')">岳阳</span>
+      <span class="cat-chip" onclick="setFromCity(this,'常德')">常德</span>
+      <span class="cat-chip" onclick="setFromCity(this,'郴州')">郴州</span>
+    </div>
+    <div class="section-title">📍 热门目的城市</div>
+    <div style="padding:0 16px;display:flex;flex-wrap:wrap;gap:8px">
+      <span class="cat-chip active" onclick="setToCity(this,'广州')">广州</span>
+      <span class="cat-chip" onclick="setToCity(this,'深圳')">深圳</span>
+      <span class="cat-chip" onclick="setToCity(this,'武汉')">武汉</span>
+      <span class="cat-chip" onclick="setToCity(this,'上海')">上海</span>
+      <span class="cat-chip" onclick="setToCity(this,'北京')">北京</span>
+      <span class="cat-chip" onclick="setToCity(this,'成都')">成都</span>
+      <span class="cat-chip" onclick="setToCity(this,'重庆')">重庆</span>
+    </div>
+
+    <div class="section-title">⭐ 推荐专线公司</div>
+    <div id="logistics-recommend"></div>
+  </div>
+
+  <!-- Logistics Results -->
+  <div class="screen page" id="page-logistics-results">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>长沙 → 广州 专线</div>
+    <div class="filter-bar">
+      <div class="filter-item active">综合排序</div>
+      <div class="filter-item">评价↓</div>
+      <div class="filter-item">价格↓</div>
+      <div class="filter-item">筛选</div>
+    </div>
+    <div id="logistics-list"></div>
+  </div>
+
+  <!-- Company Detail -->
+  <div class="screen page" id="page-company-detail">
+    <div class="detail-header">
+      <div class="dh-company">
+        <div class="dh-logo">🚛</div>
+        <div>
+          <div class="dh-name">长沙顺达物流 <span style="font-size:10px;background:linear-gradient(135deg,#ffd700,#ffb800);padding:2px 6px;border-radius:3px;color:#7a6200;vertical-align:middle">VIP</span></div>
+          <div class="dh-meta">湖南 · 长沙 | 成立8年 | 认证专线</div>
+        </div>
+      </div>
+      <div class="dh-tags">
+        <span class="dh-tag">零担</span>
+        <span class="dh-tag">整车</span>
+        <span class="dh-tag">大件</span>
+        <span class="dh-tag">冷链</span>
+      </div>
+    </div>
+
+    <div class="detail-section" style="margin-top:16px">
+      <div class="ds-title">📋 经营线路</div>
+      <div class="route-list">
+        <div class="route-item">
+          <div class="ri-line"><div class="ri-route">长沙 → 广州</div><div class="ri-time">⏱ 1-2天达</div></div>
+          <div class="ri-tags"><span class="tag tag-blue">零担</span><span class="tag tag-green">整车</span></div>
+        </div>
+        <div class="route-item">
+          <div class="ri-line"><div class="ri-route">长沙 → 深圳</div><div class="ri-time">⏱ 1-2天达</div></div>
+          <div class="ri-tags"><span class="tag tag-blue">零担</span></div>
+        </div>
+        <div class="route-item">
+          <div class="ri-line"><div class="ri-route">长沙 → 东莞</div><div class="ri-time">⏱ 2-3天达</div></div>
+          <div class="ri-tags"><span class="tag tag-blue">零担</span><span class="tag tag-orange">大件</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <div class="ds-title">🛒 代采买服务</div>
+      <div class="purchase-service">
+        <div class="ps-title">✅ 该专线支持代采买</div>
+        <div class="ps-tags">
+          <span class="tag tag-orange">五金建材</span>
+          <span class="tag tag-orange">日用百货</span>
+          <span class="tag tag-orange">服装辅料</span>
+          <span class="tag tag-orange">塑料制品</span>
+        </div>
+        <div class="ps-info">
+          📍 合作市场：高桥大市场、三湘南湖市场<br>
+          💰 服务费：采购金额的 3% 或最低 50元/单
+        </div>
+        <button class="btn btn-outline btn-sm" style="margin-top:8px" onclick="navigateTo('demand-form')">📝 提交代采买需求</button>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <div class="ds-title">🏪 合作商家 <span style="font-size:12px;font-weight:400;color:var(--primary);cursor:pointer" onclick="navigateTo('merchant-search')">查看全部 ›</span></div>
+      <div class="merchant-mini-list">
+        <div class="merchant-mini-card" onclick="navigateTo('merchant-detail')"><div class="mm-thumb">🏬</div><div class="mm-name">张记五金批发</div><div class="mm-market">高桥大市场</div></div>
+        <div class="merchant-mini-card" onclick="navigateTo('merchant-detail')"><div class="mm-thumb">🏪</div><div class="mm-name">鑫达建材商行</div><div class="mm-market">三湘南湖</div></div>
+        <div class="merchant-mini-card" onclick="navigateTo('merchant-detail')"><div class="mm-thumb">🏢</div><div class="mm-name">宏发百货批发</div><div class="mm-market">高桥大市场</div></div>
+        <div class="merchant-mini-card" onclick="navigateTo('merchant-detail')"><div class="mm-thumb">🏭</div><div class="mm-name">永利塑料制品</div><div class="mm-market">高桥大市场</div></div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <div class="ds-title">📷 公司实景</div>
+      <div style="display:flex;gap:8px;overflow-x:auto">
+        <div style="min-width:100px;height:80px;background:#f0f0f0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:30px">🚛</div>
+        <div style="min-width:100px;height:80px;background:#f0f0f0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:30px">🏢</div>
+        <div style="min-width:100px;height:80px;background:#f0f0f0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:30px">📦</div>
+      </div>
+    </div>
+
+    <div style="height:80px"></div>
+    <div class="detail-sticky-bottom">
+      <button class="btn btn-outline" style="flex:0 0 auto;padding:10px 14px" onclick="showToast('已收藏')">⭐ 收藏</button>
+      <button class="btn btn-outline" style="flex:0 0 auto;padding:10px 14px" onclick="showToast('已分享')">↗ 分享</button>
+      <button class="btn btn-primary btn-phone" onclick="showToast('正在拨打 0731-8888**** ...')">📞 拨打电话</button>
+    </div>
+  </div>
+
+  <!-- Merchant Search -->
+  <div class="screen page" id="page-merchant-search">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>找商家</div>
+    <div class="logistics-search-area" style="background:var(--orange)">
+      <div class="search-box" style="margin:0;box-shadow:none">
+        <span class="search-icon">🔍</span>
+        <input placeholder="搜索品类、商家名称..." readonly onclick="showToast('搜索功能开发中')">
+      </div>
+    </div>
+    <div class="section-title">📂 按品类浏览</div>
+    <div class="merchant-categories">
+      <span class="cat-chip active">全部</span>
+      <span class="cat-chip">五金建材</span>
+      <span class="cat-chip">日用百货</span>
+      <span class="cat-chip">服装鞋帽</span>
+      <span class="cat-chip">食品饮料</span>
+      <span class="cat-chip">塑料制品</span>
+      <span class="cat-chip">电子电器</span>
+      <span class="cat-chip">农副产品</span>
+    </div>
+    <div class="market-browser">
+      <div class="mb-title">🏬 按市场浏览</div>
+      <div class="market-grid">
+        <div class="market-item" onclick="showToast('高桥大市场商家列表')"><div class="mi-icon">🏬</div><div class="mi-name">高桥大市场</div><div class="mi-count">56家商家</div></div>
+        <div class="market-item" onclick="showToast('三湘南湖市场商家列表')"><div class="mi-icon">🏪</div><div class="mi-name">三湘南湖市场</div><div class="mi-count">42家商家</div></div>
+        <div class="market-item" onclick="showToast('红星市场商家列表')"><div class="mi-icon">🏢</div><div class="mi-name">红星大市场</div><div class="mi-count">38家商家</div></div>
+        <div class="market-item" onclick="showToast('马王堆市场商家列表')"><div class="mi-icon">🏭</div><div class="mi-name">马王堆市场</div><div class="mi-count">29家商家</div></div>
+      </div>
+    </div>
+    <div class="section-title">⭐ 推荐商家</div>
+    <div id="merchant-list"></div>
+  </div>
+
+  <!-- Merchant Detail -->
+  <div class="screen page" id="page-merchant-detail">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>商家名片</div>
+    <div class="md-header">
+      <div class="md-thumb">🏬</div>
+      <div class="md-name-area">
+        <div class="md-name">张记五金批发</div>
+        <div class="md-market">📍 高桥大市场 · B区3楼205号</div>
+      </div>
+    </div>
+    <div class="detail-section" style="margin-top:16px">
+      <div class="ds-title">ℹ️ 基本信息</div>
+      <div style="font-size:13px;color:var(--text-secondary);line-height:2">
+        🏷️ 主营品类：五金建材<br>
+        📅 经营年限：10年<br>
+        📍 所在市场：高桥大市场 · B区3楼205号<br>
+        📊 数据来源：物流公司关联
+      </div>
+      <div style="display:flex;gap:6px;margin-top:8px">
+        <span class="tag tag-orange">管材管件</span>
+        <span class="tag tag-orange">螺丝紧固件</span>
+        <span class="tag tag-orange">五金工具</span>
+        <span class="tag tag-orange">建材辅料</span>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="ds-title">🚚 合作物流公司</div>
+      <div class="route-list">
+        <div class="route-item" style="cursor:pointer" onclick="navigateTo('company-detail')">
+          <div class="ri-line"><div class="ri-route">长沙顺达物流 <span style="font-size:10px" class="tag tag-green">VIP</span></div><div class="ri-time">长沙→广州/深圳 | 代采买 ✅</div></div>
+          <div class="ri-tags"><span class="tag tag-blue">推荐</span></div>
+        </div>
+        <div class="route-item">
+          <div class="ri-line"><div class="ri-route">湖南安捷物流</div><div class="ri-time">长沙→广州/东莞 | 代采买 ✅</div></div>
+          <div class="ri-tags"></div>
+        </div>
+        <div class="route-item">
+          <div class="ri-line"><div class="ri-route">星沙快运</div><div class="ri-time">长沙→深圳 | 代采买 ❌</div></div>
+          <div class="ri-tags"></div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" style="margin-top:12px" onclick="navigateTo('demand-form')">🛒 通过合作物流委托采购</button>
+    </div>
+  </div>
+
+  <!-- Demand Form -->
+  <div class="screen page" id="page-demand-form">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>提交代采买需求</div>
+    <div style="padding:16px">
+      <div class="form-group">
+        <div class="form-label"><span class="required">*</span> 关联品类</div>
+        <div class="demand-category-tags" id="demand-cats">
+          <span class="demand-cat active" onclick="toggleDemandCat(this)">五金建材</span>
+          <span class="demand-cat" onclick="toggleDemandCat(this)">日用百货</span>
+          <span class="demand-cat" onclick="toggleDemandCat(this)">服装辅料</span>
+          <span class="demand-cat" onclick="toggleDemandCat(this)">塑料制品</span>
+          <span class="demand-cat" onclick="toggleDemandCat(this)">办公用品</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-label"><span class="required">*</span> 收货地址</div>
+        <div style="display:flex;gap:8px">
+          <select class="form-select" style="flex:1"><option>湖南省</option></select>
+          <select class="form-select" style="flex:1"><option>长沙市</option></select>
+        </div>
+        <input class="form-input" placeholder="详细地址" style="margin-top:8px">
+      </div>
+      <div class="form-group">
+        <div class="form-label">关联物流公司</div>
+        <input class="form-input" value="长沙顺达物流" readonly style="background:#f9f9f9">
+      </div>
+      <div class="form-group">
+        <div class="form-label"><span class="required">*</span> 采购清单</div>
+        <div id="demand-items">
+          <div class="demand-item-row">
+            <input placeholder="品名" value="不锈钢螺丝">
+            <input placeholder="数量" value="500个" style="flex:0 0 70px">
+            <input placeholder="预算" value="≤200元" style="flex:0 0 80px">
+            <span class="remove-row" onclick="this.parentElement.remove()">×</span>
+          </div>
+          <div class="demand-item-row">
+            <input placeholder="品名" value="镀锌角铁">
+            <input placeholder="数量" value="20根" style="flex:0 0 70px">
+            <input placeholder="预算" value="≤600元" style="flex:0 0 80px">
+            <span class="remove-row" onclick="this.parentElement.remove()">×</span>
+          </div>
+        </div>
+        <div class="add-row-btn" onclick="addDemandRow()">+ 添加采购项</div>
+      </div>
+      <div class="form-group">
+        <div class="form-label">备注要求</div>
+        <textarea class="form-textarea" placeholder="描述品质要求、替代方案等..."></textarea>
+      </div>
+      <div class="form-group">
+        <div class="form-label">采购预算上限</div>
+        <input class="form-input" placeholder="¥____（选填）">
+      </div>
+      <div class="form-group">
+        <div class="form-label">期望时效</div>
+        <div style="display:flex;gap:8px">
+          <span class="demand-cat active" style="border-radius:16px" onclick="toggleDemandCat(this)">3天内</span>
+          <span class="demand-cat" style="border-radius:16px" onclick="toggleDemandCat(this)">一周内</span>
+          <span class="demand-cat" style="border-radius:16px" onclick="toggleDemandCat(this)">不急</span>
+        </div>
+      </div>
+      <div class="form-submit">
+        <button class="btn btn-primary btn-lg btn-block" onclick="showToast('✅ 委托已提交，物流公司将联系您')">提交委托</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Merchant Register -->
+  <div class="screen page" id="page-merchant-register">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>商家入驻</div>
+    <div style="padding:16px">
+      <div style="background:var(--orange-light);padding:12px;border-radius:var(--radius-sm);font-size:12px;color:var(--orange);margin-bottom:16px;line-height:1.6">
+        💡 商家入驻后将在平台展示，货主可通过合作物流公司向您发起采购委托。所有信息需经审核后上线。
+      </div>
+      <div class="form-group">
+        <div class="form-label"><span class="required">*</span> 商家名称</div>
+        <input class="form-input" placeholder="如：张记五金批发">
+      </div>
+      <div class="form-group">
+        <div class="form-label"><span class="required">*</span> 门头照片</div>
+        <div style="width:100%;height:120px;border:2px dashed var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-hint);font-size:13px" onclick="showToast('选择照片')">📷 点击上传门头照片</div>
+      </div>
+      <div class="form-group">
+        <div class="form-label"><span class="required">*</span> 所在市场</div>
+        <select class="form-select"><option>请选择市场</option><option>高桥大市场</option><option>三湘南湖市场</option><option>红星大市场</option><option>马王堆市场</option></select>
+      </div>
+      <div class="form-group">
+        <div class="form-label">市场内位置</div>
+        <input class="form-input" placeholder="如：B区3楼205号">
+      </div>
+      <div class="form-group">
+        <div class="form-label"><span class="required">*</span> 主营品类</div>
+        <div class="demand-category-tags" id="register-cats">
+          <span class="demand-cat" onclick="toggleDemandCat(this)">五金建材</span>
+          <span class="demand-cat" onclick="toggleDemandCat(this)">日用百货</span>
+          <span class="demand-cat" onclick="toggleDemandCat(this)">服装鞋帽</span>
+          <span class="demand-cat" onclick="toggleDemandCat(this)">食品饮料</span>
+          <span class="demand-cat" onclick="toggleDemandCat(this)">塑料制品</span>
+          <span class="demand-cat" onclick="toggleDemandCat(this)">电子电器</span>
+          <span class="demand-cat" onclick="toggleDemandCat(this)">农副产品</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-label">经营年限</div>
+        <input class="form-input" placeholder="如：10年">
+      </div>
+      <div class="form-group">
+        <div class="form-label">联系电话</div>
+        <input class="form-input" placeholder="选填">
+      </div>
+      <div class="form-submit">
+        <button class="btn btn-primary btn-lg btn-block" onclick="showToast('✅ 提交成功，等待审核')">提交入驻申请</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Favorite Routes -->
+  <div class="screen page" id="page-fav-routes">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>线路收藏</div>
+    <div style="padding-top:8px">
+      <div class="fav-route" onclick="navigateTo('company-detail')">
+        <div class="fr-route">🚚 长沙 → 广州</div>
+        <div class="fr-count">38条专线</div>
+        <div class="fr-arrow">›</div>
+      </div>
+      <div class="fav-route" onclick="navigateTo('company-detail')">
+        <div class="fr-route">🚚 长沙 → 深圳</div>
+        <div class="fr-count">32条专线</div>
+        <div class="fr-arrow">›</div>
+      </div>
+      <div class="fav-route" onclick="navigateTo('company-detail')">
+        <div class="fr-route">🚚 株洲 → 广州</div>
+        <div class="fr-count">21条专线</div>
+        <div class="fr-arrow">›</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- My Orders -->
+  <div class="screen page" id="page-my-orders">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>我的订单</div>
+    <div style="display:flex;border-bottom:1px solid var(--border);background:var(--card)">
+      <div class="hot-tab active" style="border-bottom:none">全部</div>
+      <div class="hot-tab" style="border-bottom:none">进行中</div>
+      <div class="hot-tab" style="border-bottom:none">已完成</div>
+    </div>
+    <div style="padding-top:8px">
+      <div class="order-card" onclick="showToast('订单详情')">
+        <div class="oc-header">
+          <span class="oc-no">单号：PC20260605001</span>
+          <span class="oc-status pending">采购中</span>
+        </div>
+        <div class="oc-body">
+          采购品类：五金建材<br>
+          关联物流：长沙顺达物流<br>
+          采购项：不锈钢螺丝 500个 / 镀锌角铁 20根<br>
+          预算上限：¥800
+        </div>
+        <div class="oc-footer">
+          <span class="oc-time">2026-06-05 14:30</span>
+          <span class="tag tag-orange">预计3天完成</span>
+        </div>
+      </div>
+      <div class="order-card">
+        <div class="oc-header">
+          <span class="oc-no">单号：PC20260601003</span>
+          <span class="oc-status done">已完成</span>
+        </div>
+        <div class="oc-body">
+          采购品类：日用百货<br>
+          关联物流：湖南安捷物流<br>
+          采购项：塑料收纳箱 100个 / 拖把套装 50套
+        </div>
+        <div class="oc-footer">
+          <span class="oc-time">2026-06-01 09:15</span>
+          <span class="tag tag-green">已签收</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Browsing History -->
+  <div class="screen page" id="page-browsing-history">
+    <div class="sub-page-header">
+      <span class="back" onclick="goBack()">‹</span>浏览记录
+      <span style="position:absolute;right:16px;font-size:13px;font-weight:400;color:var(--red);cursor:pointer" onclick="showToast('已清空')">清空</span>
+    </div>
+    <div class="section-title">今天</div>
+    <div class="history-item" onclick="navigateTo('company-detail')">
+      <div class="hi-icon">🚚</div>
+      <div class="hi-info"><div class="hi-title">长沙顺达物流 - 专线详情</div><div class="hi-time">13:25</div></div>
+      <div class="hi-delete">×</div>
+    </div>
+    <div class="history-item" onclick="navigateTo('merchant-detail')">
+      <div class="hi-icon">🏬</div>
+      <div class="hi-info"><div class="hi-title">张记五金批发 - 商家名片</div><div class="hi-time">13:20</div></div>
+      <div class="hi-delete">×</div>
+    </div>
+    <div class="section-title">昨天</div>
+    <div class="history-item" onclick="navigateTo('logistics-results')">
+      <div class="hi-icon">🔍</div>
+      <div class="hi-info"><div class="hi-title">搜索：长沙 → 深圳 专线</div><div class="hi-time">16:42</div></div>
+      <div class="hi-delete">×</div>
+    </div>
+    <div class="history-item" onclick="navigateTo('company-detail')">
+      <div class="hi-icon">🚚</div>
+      <div class="hi-info"><div class="hi-title">湖南安捷物流 - 专线详情</div><div class="hi-time">15:30</div></div>
+      <div class="hi-delete">×</div>
+    </div>
+  </div>
+
+  <!-- Chat Detail -->
+  <div class="screen page" id="page-chat-detail">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>长沙顺达物流</div>
+    <div class="chat-messages">
+      <div class="chat-bubble received">您好！您提交的代采买需求已收到 📋</div>
+      <div class="chat-bubble received">不锈钢螺丝 500个 + 镀锌角铁 20根，预算 800 以内对吧？我这边马上去高桥市场采购</div>
+      <div class="chat-bubble sent">对的，麻烦您了！镀锌角铁要热镀锌的，不要冷镀的</div>
+      <div class="chat-bubble received">没问题，热镀锌的。预计明天下午能采购好，后天发车去广州</div>
+      <div class="chat-bubble sent">好的，费用方面到时候一起结吗？</div>
+      <div class="chat-bubble received">对，采购费用实报实销 + 3%服务费，发货时统一结算</div>
+      <div class="chat-bubble sent">👍 好的，辛苦您了</div>
+    </div>
+    <div class="chat-input-bar">
+      <input placeholder="输入消息...">
+      <div class="send-btn">→</div>
+    </div>
+  </div>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar" id="tab-bar">
+    <div class="tab-item active" data-page="home" onclick="switchTab('home')">
+      <div class="icon">🏠</div>
+      <div>主页</div>
+    </div>
+    <div class="tab-item" data-page="xiang" onclick="switchTab('xiang')">
+      <div class="icon">🏘️</div>
+      <div>湘圈</div>
+    </div>
+    <div class="tab-item" data-page="messages" onclick="switchTab('messages')">
+      <div class="icon" style="position:relative">💬<span class="badge">2</span></div>
+      <div>消息</div>
+    </div>
+    <div class="tab-item" data-page="profile" onclick="switchTab('profile')">
+      <div class="icon">👤</div>
+      <div>我的</div>
+    </div>
+  </div>
+
+  <!-- Publish Overlay -->
+  <div class="publish-overlay hidden" id="publish-overlay" onclick="if(event.target===this)togglePublish()">
+    <div class="publish-panel">
+      <div class="pp-title">📝 发布动态</div>
+      <textarea placeholder="说点什么...&#10;货主可以发布求车信息，物流公司可以推广线路..."></textarea>
+      <div class="pp-type">
+        <div class="pp-type-option" onclick="togglePublishType(this)">我是货主</div>
+        <div class="pp-type-option active" onclick="togglePublishType(this)">我是物流</div>
+      </div>
+      <div class="pp-tag-input">
+        <span class="pp-tag">#长沙→广州 <span class="remove">×</span></span>
+        <span class="pp-add-tag" onclick="showToast('添加标签')">+ 添加标签</span>
+      </div>
+      <button class="btn btn-primary btn-block" style="margin-top:12px" onclick="publishPost()">发布</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== NAVIGATION ====================
+const pageStack = ['home'];
+
+function navigateTo(pageId) {
+  const currentPage = document.querySelector('.page.active');
+  if (currentPage) {
+    currentPage.classList.remove('active');
+    pageStack.push(pageId);
+  }
+  const target = document.getElementById('page-' + pageId);
+  if (target) {
+    target.classList.add('active');
+    target.scrollTop = 0;
+  }
+  // Hide tab bar on sub pages
+  const tabBar = document.getElementById('tab-bar');
+  tabBar.style.display = isTabPage(pageId) ? 'flex' : 'none';
+}
+
+function goBack() {
+  if (pageStack.length <= 1) return;
+  pageStack.pop();
+  const prevPage = pageStack[pageStack.length - 1];
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + prevPage);
+  if (target) target.classList.add('active');
+  const tabBar = document.getElementById('tab-bar');
+  tabBar.style.display = isTabPage(prevPage) ? 'flex' : 'none';
+  
+  // Update tab active state
+  if (isTabPage(prevPage)) {
+    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+    const tabItem = document.querySelector(`.tab-item[data-page="${prevPage}"]`);
+    if (tabItem) tabItem.classList.add('active');
+  }
+}
+
+function isTabPage(pageId) {
+  return ['home', 'xiang', 'messages', 'profile'].includes(pageId);
+}
+
+function switchTab(tabId) {
+  pageStack.length = 0;
+  pageStack.push(tabId);
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-bar').style.display = 'flex';
+  const target = document.getElementById('page-' + tabId);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  const tabItem = document.querySelector(`.tab-item[data-page="${tabId}"]`);
+  if (tabItem) tabItem.classList.add('active');
+}
+
+// ==================== TOAST ====================
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1500);
+}
+
+// ==================== CITY PICKER ====================
+function showCityPicker(type) {
+  showToast('选择' + (type === 'from' ? '出发' : '目的') + '城市');
+}
+
+function setFromCity(el, city) {
+  document.getElementById('from-city').textContent = city;
+  el.parentElement.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function setToCity(el, city) {
+  document.getElementById('to-city').textContent = city;
+  el.parentElement.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function swapCities() {
+  const from = document.getElementById('from-city');
+  const to = document.getElementById('to-city');
+  const tmp = from.textContent;
+  from.textContent = to.textContent;
+  to.textContent = tmp;
+  showToast('已交换');
+}
+
+// ==================== DEMAND FORM ====================
+function toggleDemandCat(el) {
+  el.classList.toggle('active');
+}
+
+function addDemandRow() {
+  const container = document.getElementById('demand-items');
+  const row = document.createElement('div');
+  row.className = 'demand-item-row';
+  row.innerHTML = `
+    <input placeholder="品名">
+    <input placeholder="数量" style="flex:0 0 70px">
+    <input placeholder="预算" style="flex:0 0 80px">
+    <span class="remove-row" onclick="this.parentElement.remove()">×</span>
+  `;
+  container.appendChild(row);
+}
+
+// ==================== XIANG CIRCLE ====================
+function switchXcTab(el, type) {
+  el.parentElement.querySelectorAll('.xc-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderXcFeed(type);
+}
+
+function togglePublish() {
+  document.getElementById('publish-overlay').classList.toggle('hidden');
+}
+
+function togglePublishType(el) {
+  el.parentElement.querySelectorAll('.pp-type-option').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function publishPost() {
+  document.getElementById('publish-overlay').classList.add('hidden');
+  showToast('✅ 发布成功');
+}
+
+const xcPosts = [
+  { user:'张货主', role:'owner', roleText:'货主', content:'求长沙→广州的专线，有一批五金配件要发，大概3吨左右，要求2天内到。有做这条线的请联系我！', tags:['#长沙→广州','#五金配件','#急发'], likes:12, comments:5, time:'10分钟前' },
+  { user:'顺达物流·李经理', role:'logistics', roleText:'物流公司', content:'🚛 长沙顺达物流，主营长沙↔珠三角专线运输！\n\n✅ 零担/整车/大件均可\n✅ 支持代采买服务（高桥大市场）\n✅ 天天发车，时效1-2天\n\n有需要的老板欢迎来电咨询！', tags:['#长沙→广州','#长沙→深圳','#代采买'], likes:28, comments:8, time:'1小时前' },
+  { user:'王货主', role:'owner', roleText:'货主', content:'在高桥大市场这边，想找人帮忙采购一批日用百货然后发到武汉，有没有物流公司能做代采买的？', tags:['#代采买','#长沙→武汉','#日用百货'], likes:6, comments:3, time:'2小时前' },
+  { user:'安捷物流·陈总', role:'logistics', roleText:'物流公司', content:'📢 湖南安捷物流，专注湖南→湖北专线！\n\n线路覆盖：长沙→武汉/宜昌/襄阳\n服务：零担/整车 | 支持代采买 | 三湘南湖市场合作\n\n新客户首单9折！欢迎咨询 🤝', tags:['#长沙→武汉','#湖北专线','#新客优惠'], likes:15, comments:4, time:'3小时前' },
+  { user:'刘货主', role:'owner', roleText:'货主', content:'株洲服装批发市场的老板们看过来～需要找株洲→杭州的物流专线，长期合作，每次发货量5-10包服装辅料', tags:['#株洲→杭州','#服装辅料','#长期合作'], likes:3, comments:2, time:'5小时前' },
+];
+
+function renderXcFeed(filter) {
+  const feed = document.getElementById('xc-feed');
+  let posts = xcPosts;
+  if (filter === 'cargo') posts = xcPosts.filter(p => p.role === 'owner');
+  if (filter === 'logistics') posts = xcPosts.filter(p => p.role === 'logistics');
+  
+  feed.innerHTML = posts.map(p => `
+    <div class="xc-post">
+      <div class="xp-header">
+        <div class="xp-avatar">${p.role === 'owner' ? '👤' : '🚛'}</div>
+        <div class="xp-user">
+          <div class="xp-name">${p.user} <span class="xp-role-badge ${p.role}">${p.roleText}</span></div>
+          <div class="xp-role">${p.time}</div>
+        </div>
+      </div>
+      <div class="xp-content">${p.content.replace(/\n/g,'<br>')}</div>
+      <div class="xp-tags">${p.tags.map(t => `<span class="tag tag-blue">${t}</span>`).join('')}</div>
+      <div class="xp-footer">
+        <span onclick="showToast('点赞')">👍 ${p.likes}</span>
+        <span onclick="showToast('评论')">💬 ${p.comments}</span>
+        <span onclick="showToast('已分享')">↗ 分享</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ==================== LOGISTICS RESULTS ====================
+const logisticsData = [
+  {name:'长沙顺达物流',vip:true,tags:['零担','整车','大件','冷链'],time:'1-2天达',price:'面议',cert:true},
+  {name:'湖南安捷物流',vip:true,tags:['零担','整车','大件'],time:'1-2天达',price:'面议',cert:true},
+  {name:'星沙快运',vip:false,tags:['零担','整车'],time:'2-3天达',price:'面议',cert:true},
+  {name:'岳麓物流',vip:false,tags:['零担'],time:'2-3天达',price:'面议',cert:false},
+  {name:'开福货运',vip:false,tags:['整车','大件'],time:'1-2天达',price:'面议',cert:true},
+];
+
+function renderLogisticsList() {
+  const container = document.getElementById('logistics-list');
+  if (!container) return;
+  container.innerHTML = logisticsData.map(c => `
+    <div class="company-card" onclick="navigateTo('company-detail')">
+      <div class="company-header">
+        <div class="company-logo">🚛</div>
+        <div class="company-info">
+          <div class="company-name">${c.name}${c.vip?' <span class="vip-badge">VIP</span>':''}${c.cert?' <span class="tag tag-green" style="font-size:10px">认证</span>':''}</div>
+          <div class="company-tags">${c.tags.map(t => `<span class="tag tag-blue">${t}</span>`).join('')}</div>
+          <div class="company-meta">⏱ ${c.time} | 📞 电话咨询</div>
+        </div>
+      </div>
+      <div class="company-footer">
+        <div class="price">参考价：<strong>${c.price}</strong></div>
+        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();navigateTo('company-detail')">查看详情</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ==================== MERCHANT LIST ====================
+const merchantData = [
+  {name:'张记五金批发',market:'高桥大市场',tags:['五金建材','管材管件'],logistics:'3家合作物流',years:'10年'},
+  {name:'鑫达建材商行',market:'三湘南湖市场',tags:['五金建材','建材辅料'],logistics:'2家合作物流',years:'8年'},
+  {name:'宏发百货批发',market:'高桥大市场',tags:['日用百货','塑料制品'],logistics:'5家合作物流',years:'15年'},
+  {name:'永利塑料制品',market:'高桥大市场',tags:['塑料制品','包装材料'],logistics:'2家合作物流',years:'6年'},
+];
+
+function renderMerchantList() {
+  const container = document.getElementById('merchant-list');
+  if (!container) return;
+  container.innerHTML = merchantData.map(m => `
+    <div class="merchant-card" onclick="navigateTo('merchant-detail')">
+      <div class="mc-thumb">🏬</div>
+      <div class="mc-info">
+        <div class="mc-name">${m.name}</div>
+        <div class="mc-market">📍 ${m.market} · 经营${m.years}</div>
+        <div class="mc-tags">${m.tags.map(t => `<span class="tag tag-orange">${t}</span>`).join('')}</div>
+        <div class="mc-logistics">🚚 ${m.logistics}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ==================== LOGISTICS RECOMMEND ====================
+const recommendData = [
+  {name:'长沙顺达物流',vip:true,tags:['零担','整车','大件','冷链'],time:'1-2天达',routes:'长沙→广州/深圳/东莞',cert:true,desc:'高桥大市场合作，支持代采买'},
+  {name:'湖南安捷物流',vip:true,tags:['零担','整车','大件'],time:'1-2天达',routes:'长沙→广州/武汉',cert:true,desc:'三湘南湖合作，新客首单9折'},
+  {name:'星沙快运',vip:false,tags:['零担','整车'],time:'2-3天达',routes:'长沙→深圳/惠州',cert:true,desc:'星沙发车，天天班'},
+];
+
+function renderLogisticsRecommend() {
+  const container = document.getElementById('logistics-recommend');
+  if (!container) return;
+  container.innerHTML = recommendData.map(c => `
+    <div class="company-card" onclick="navigateTo('company-detail')">
+      <div class="company-header">
+        <div class="company-logo">🚛</div>
+        <div class="company-info">
+          <div class="company-name">${c.name}${c.vip?' <span class="vip-badge">VIP</span>':''}${c.cert?' <span class="tag tag-green" style="font-size:10px">认证</span>':''}</div>
+          <div class="company-tags">${c.tags.map(t => `<span class="tag tag-blue">${t}</span>`).join('')}</div>
+          <div class="company-meta">⏱ ${c.time} | 🚚 ${c.routes}</div>
+          <div style="font-size:11px;color:var(--text-hint);margin-top:4px">💡 ${c.desc}</div>
+        </div>
+      </div>
+      <div class="company-footer">
+        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showToast('已收藏')">⭐ 收藏</button>
+        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();navigateTo('company-detail')">查看详情</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', () => {
+  renderXcFeed('all');
+  renderLogisticsList();
+  renderMerchantList();
+  renderLogisticsRecommend();
+});
+</script>
+
+</body>
+</html>
