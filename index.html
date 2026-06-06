@@ -148,7 +148,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .company-footer .price strong{color:var(--orange);font-size:16px}
 
 /* ============ COMPANY DETAIL ============ */
-.detail-header{background:linear-gradient(135deg,#1677ff,#4096ff);padding:20px 16px 24px;color:#fff}
+.detail-header{background:linear-gradient(135deg,#1677ff,#4096ff);padding:20px 16px 24px;color:#fff;position:relative}
+.detail-header .dh-back{position:absolute;top:12px;left:12px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;cursor:pointer;z-index:10}
 .detail-header .dh-company{display:flex;align-items:center;gap:12px}
 .detail-header .dh-logo{width:56px;height:56px;border-radius:var(--radius-sm);background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:28px}
 .detail-header .dh-name{font-size:20px;font-weight:700}
@@ -602,6 +603,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
   <!-- Company Detail -->
   <div class="screen page" id="page-company-detail">
     <div class="detail-header">
+      <span class="dh-back" onclick="goBack()">‹</span>
       <div class="dh-company">
         <div class="dh-logo">🚛</div>
         <div>
