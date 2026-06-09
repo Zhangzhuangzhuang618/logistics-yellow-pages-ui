@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>物流黄页小程序 · UI原型</title>
+<title>物流黄页小程序 · UI原型 v1.1</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -11,6 +11,7 @@
   --orange:#fa8c16;--orange-light:#fff7e6;
   --green:#52c41a;--green-light:#f6ffed;
   --red:#ff4d4f;--red-light:#fff2f0;
+  --gold:#ff9800;--gold-light:#fff8e1;
   --bg:#f5f5f5;--card:#fff;--border:#f0f0f0;
   --text:#1a1a2e;--text-secondary:#666;--text-hint:#999;
   --radius:12px;--radius-sm:8px;
@@ -35,7 +36,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .tab-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;color:var(--text-hint);font-size:10px;transition:color .2s}
 .tab-item.active{color:var(--primary)}
 .tab-item .icon{font-size:22px;line-height:1}
-.tab-item .publish-btn{width:44px;height:44px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;margin-top:-18px;box-shadow:0 4px 12px rgba(22,119,255,.35)}
 
 /* Page */
 .page{display:none}
@@ -67,23 +67,53 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .tag-blue{background:var(--primary-light);color:var(--primary)}
 .tag-orange{background:var(--orange-light);color:var(--orange)}
 .tag-green{background:var(--green-light);color:var(--green)}
+.tag-gold{background:var(--gold-light);color:var(--gold)}
 
 /* Badge */
 .badge{position:absolute;top:-4px;right:-8px;min-width:16px;height:16px;background:var(--red);color:#fff;border-radius:8px;font-size:10px;display:flex;align-items:center;justify-content:center;padding:0 4px}
 
 /* ============ HOME PAGE ============ */
-.home-header{background:linear-gradient(135deg,#1677ff,#4096ff);padding:16px 16px 24px;position:relative;overflow:hidden}
+.home-header{background:linear-gradient(135deg,#1677ff,#4096ff);padding:16px 16px 20px;position:relative;overflow:hidden}
 .home-header::after{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:rgba(255,255,255,.08);border-radius:50%}
 .home-header .location{color:rgba(255,255,255,.8);font-size:13px;display:flex;align-items:center;gap:4px;margin-bottom:12px}
 .home-header .location .city{font-size:16px;font-weight:600;color:#fff}
 
-.home-search{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.95);border-radius:24px;padding:10px 16px;position:relative;z-index:1}
-.home-search input{border:none;outline:none;flex:1;font-size:14px;color:var(--text);background:transparent}
-.home-search input::placeholder{color:var(--text-hint)}
-.home-search .icon{font-size:18px;color:var(--text-hint)}
-.home-search .scan{font-size:20px;color:var(--primary);padding-left:8px;border-left:1px solid var(--border)}
+/* Home route picker */
+.home-route-picker{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.95);border-radius:24px;padding:10px 16px;position:relative;z-index:1}
+.home-route-picker .rp-city{flex:1;display:flex;align-items:center;gap:6px;cursor:pointer;min-width:0}
+.home-route-picker .rp-city .rp-label{font-size:10px;color:var(--text-hint);white-space:nowrap}
+.home-route-picker .rp-city .rp-name{font-size:16px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.home-route-picker .rp-arrow{font-size:18px;color:var(--primary);flex-shrink:0;margin:0 2px}
+.home-route-picker .rp-swap{width:28px;height:28px;background:var(--primary-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;flex-shrink:0}
+.home-route-picker .rp-go{width:36px;height:36px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;flex-shrink:0}
 
-.dual-entry{display:flex;gap:12px;margin:16px;margin-top:-8px;position:relative;z-index:2}
+/* Paid promotion list on homepage */
+.paid-ad-section{margin:0 16px 16px;background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.paid-ad-header{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border)}
+.paid-ad-header .pah-title{font-size:15px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:6px}
+.paid-ad-header .pah-more{font-size:12px;color:var(--gold);cursor:pointer}
+.paid-ad-list{margin:0;padding:0 14px}
+.paid-ad-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.paid-ad-item:last-child{border-bottom:none}
+.paid-ad-item:active{background:#fafafa}
+.paid-ad-item .rank{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;background:linear-gradient(135deg,#ff9800,#ffc107);flex-shrink:0}
+.paid-ad-item .paid-main{flex:1;min-width:0}
+.paid-ad-item .paid-title{font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.paid-ad-item .paid-meta{font-size:11px;color:var(--text-hint);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.paid-ad-item .paid-role{font-size:11px;color:var(--gold);background:var(--gold-light);border-radius:10px;padding:2px 8px;flex-shrink:0}
+.paid-ad-empty{padding:18px 0;text-align:center;font-size:13px;color:var(--text-hint)}
+
+/* Activity feed strip — 注册/入驻滚动播报 */
+.activity-feed{margin:8px 16px;background:linear-gradient(135deg,#e6f4ff,#f0f7ff);border-radius:var(--radius-sm);padding:8px 12px;display:flex;align-items:center;gap:8px;overflow:hidden;box-shadow:0 1px 4px rgba(22,119,255,.08)}
+.activity-feed .af-icon{flex-shrink:0;font-size:16px}
+.activity-feed .af-scroll{flex:1;overflow:hidden;position:relative;height:20px}
+.activity-feed .af-track{display:flex;gap:0;animation:af-scroll 16s linear infinite;white-space:nowrap}
+@keyframes af-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.activity-feed .af-item{display:inline-flex;align-items:center;gap:4px;padding:0 14px;font-size:11px;color:var(--text-secondary);cursor:pointer;white-space:nowrap;border-right:1px solid #d0e0f0}
+.activity-feed .af-item .af-highlight{color:var(--primary);font-weight:500}
+.activity-feed .af-item .af-action{color:var(--green);font-weight:500}
+
+.dual-entry{display:flex;gap:12px;margin:16px;position:relative;z-index:2}
 .entry-card{flex:1;background:var(--card);border-radius:var(--radius);padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s}
 .entry-card:active{transform:scale(.97);box-shadow:0 1px 6px rgba(0,0,0,.08)}
 .entry-card .entry-icon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px}
@@ -218,7 +248,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .xc-header{background:var(--card);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:99;border-bottom:1px solid var(--border)}
 .xc-header .xc-title{font-size:18px;font-weight:700;color:var(--text)}
 .xc-header .xc-actions{display:flex;gap:12px;align-items:center}
-.xc-header .xc-publish{width:32px;height:32px;background:var(--primary);border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer}
+.xc-header .xc-publish-text{background:var(--primary);color:#fff;padding:6px 16px;border-radius:18px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.xc-header .xc-publish-text:active{background:var(--primary-dark)}
 
 .xc-tabs{display:flex;background:var(--card);padding:0 16px;border-bottom:1px solid var(--border);position:sticky;top:54px;z-index:98;gap:0}
 .xc-tab{flex:1;text-align:center;padding:10px 0;font-size:13px;color:var(--text-secondary);cursor:pointer;position:relative}
@@ -226,7 +257,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .xc-tab.active::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:20px;height:3px;background:var(--primary);border-radius:2px}
 
 .xc-feed{padding:8px 16px}
-.xc-post{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.xc-post{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.03);position:relative}
+.xc-post.pinned{border-left:3px solid var(--gold);background:linear-gradient(135deg,#fffdf5,#fff8e1)}
+.xc-post .xp-pin-badge{position:absolute;top:12px;right:12px;font-size:10px;background:linear-gradient(135deg,#ff9800,#ffc107);color:#fff;padding:2px 8px;border-radius:10px;font-weight:500;display:flex;align-items:center;gap:2px}
 .xc-post .xp-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .xc-post .xp-avatar{width:36px;height:36px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:18px}
 .xc-post .xp-user{flex:1}
@@ -253,6 +286,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .pp-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:var(--bg);border-radius:12px;font-size:12px;color:var(--text-secondary)}
 .pp-tag .remove{cursor:pointer;font-size:14px;line-height:1}
 .pp-add-tag{color:var(--primary);font-size:12px;cursor:pointer;padding:4px 10px}
+
+/* Paid publish option */
+.pp-paid-option{display:flex;align-items:center;justify-content:space-between;margin:12px 0;padding:12px;background:var(--gold-light);border-radius:var(--radius-sm);border:1px solid #ffe0a0}
+.pp-paid-option .ppo-left{display:flex;align-items:center;gap:8px}
+.pp-paid-option .ppo-icon{font-size:20px}
+.pp-paid-option .ppo-info .ppo-title{font-size:14px;font-weight:600;color:var(--text)}
+.pp-paid-option .ppo-info .ppo-desc{font-size:11px;color:var(--text-secondary);margin-top:2px}
+.pp-paid-option .ppo-switch{width:48px;height:26px;background:#d9d9d9;border-radius:13px;cursor:pointer;position:relative;transition:background .3s;flex-shrink:0}
+.pp-paid-option .ppo-switch.on{background:var(--gold)}
+.pp-paid-option .ppo-switch::after{content:'';position:absolute;top:2px;left:2px;width:22px;height:22px;background:#fff;border-radius:50%;transition:transform .3s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.pp-paid-option .ppo-switch.on::after{transform:translateX(22px)}
 
 /* ============ MESSAGES PAGE ============ */
 .msg-list{margin-top:0}
@@ -377,10 +421,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
   <div class="screen page active" id="page-home">
     <div class="home-header">
       <div class="location">📍 当前城市 <span class="city">长沙 ▼</span></div>
-      <div class="home-search">
-        <span class="icon">🔍</span>
-        <input placeholder="搜线路、搜商家、搜品类..." readonly onclick="navigateTo('logistics-search')">
-        <span class="scan" onclick="showToast('扫码功能开发中')">📷</span>
+      <div class="home-route-picker">
+        <div class="rp-city" onclick="showToast('选择出发城市')">
+          <span class="rp-label">出发</span>
+          <span class="rp-name" id="home-from-city">长沙</span>
+        </div>
+        <div class="rp-swap" onclick="swapHomeCities()">⇄</div>
+        <div class="rp-arrow">→</div>
+        <div class="rp-city" onclick="showToast('选择目的城市')">
+          <span class="rp-label">到达</span>
+          <span class="rp-name" id="home-to-city">广州</span>
+        </div>
+        <div class="rp-go" onclick="navigateTo('logistics-results')">→</div>
       </div>
     </div>
 
@@ -416,6 +468,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
       </div>
     </div>
 
+    <!-- 注册/入驻滚动播报 -->
+    <div class="activity-feed" id="activity-feed">
+      <span class="af-icon">📢</span>
+      <div class="af-scroll">
+        <div class="af-track" id="af-track"></div>
+      </div>
+    </div>
+
     <div class="banner-area">
       <div class="banner-img" style="background:linear-gradient(135deg,#e6f4ff 0%,#bae0ff 50%,#d6e4ff 100%);display:flex;align-items:center;justify-content:center">
         <div style="text-align:center">
@@ -430,17 +490,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
       </div>
     </div>
 
-    <div class="hot-tabs">
-      <div class="hot-tab active">🔥 热门线路</div>
-      <div class="hot-tab">🏷️ 热门品类</div>
-    </div>
-
-    <div class="hot-list">
-      <div class="hot-item" onclick="navigateTo('logistics-results')"><span class="rank">1</span><span class="route">长沙 → 广州</span><span class="count">38条专线</span></div>
-      <div class="hot-item" onclick="navigateTo('logistics-results')"><span class="rank">2</span><span class="route">长沙 → 深圳</span><span class="count">32条专线</span></div>
-      <div class="hot-item" onclick="navigateTo('logistics-results')"><span class="rank">3</span><span class="route">长沙 → 武汉</span><span class="count">27条专线</span></div>
-      <div class="hot-item" onclick="navigateTo('logistics-results')"><span class="rank">4</span><span class="route">长沙 → 上海</span><span class="count">25条专线</span></div>
-      <div class="hot-item" onclick="navigateTo('logistics-results')"><span class="rank">5</span><span class="route">株洲 → 广州</span><span class="count">21条专线</span></div>
+    <div class="paid-ad-section">
+      <div class="paid-ad-header">
+        <div class="pah-title">🔥 付费推广</div>
+        <div class="pah-more" onclick="switchTab('xiang')">更多 ›</div>
+      </div>
+      <div class="paid-ad-list" id="paid-ad-list"></div>
     </div>
   </div>
 
@@ -450,7 +505,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
       <div class="xc-title">🏘️ 湘圈</div>
       <div class="xc-actions">
         <span style="font-size:18px;cursor:pointer" onclick="showToast('搜索功能开发中')">🔍</span>
-        <div class="xc-publish" onclick="togglePublish()">+</div>
+        <div class="xc-publish-text" onclick="togglePublish()">发布</div>
       </div>
     </div>
     <div class="xc-tabs">
@@ -1017,6 +1072,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
         <div class="pp-type-option" onclick="togglePublishType(this)">我是货主</div>
         <div class="pp-type-option active" onclick="togglePublishType(this)">我是物流</div>
       </div>
+
+      <!-- 付费发布选项 -->
+      <div class="pp-paid-option">
+        <div class="ppo-left">
+          <span class="ppo-icon">🔥</span>
+          <div class="ppo-info">
+            <div class="ppo-title">付费推广</div>
+            <div class="ppo-desc">¥9.9/条 · 主页付费推广展示 · 湘圈置顶</div>
+          </div>
+        </div>
+        <div class="ppo-switch" id="paid-switch" onclick="togglePaidSwitch()"></div>
+      </div>
+
       <div class="pp-tag-input">
         <span class="pp-tag">#长沙→广州 <span class="remove">×</span></span>
         <span class="pp-add-tag" onclick="showToast('添加标签')">+ 添加标签</span>
@@ -1041,7 +1109,6 @@ function navigateTo(pageId) {
     target.classList.add('active');
     target.scrollTop = 0;
   }
-  // Hide tab bar on sub pages
   const tabBar = document.getElementById('tab-bar');
   tabBar.style.display = isTabPage(pageId) ? 'flex' : 'none';
 }
@@ -1055,8 +1122,7 @@ function goBack() {
   if (target) target.classList.add('active');
   const tabBar = document.getElementById('tab-bar');
   tabBar.style.display = isTabPage(prevPage) ? 'flex' : 'none';
-  
-  // Update tab active state
+
   if (isTabPage(prevPage)) {
     document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
     const tabItem = document.querySelector(`.tab-item[data-page="${prevPage}"]`);
@@ -1086,6 +1152,16 @@ function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 1500);
+}
+
+// ==================== HOME ROUTE PICKER ====================
+function swapHomeCities() {
+  const from = document.getElementById('home-from-city');
+  const to = document.getElementById('home-to-city');
+  const tmp = from.textContent;
+  from.textContent = to.textContent;
+  to.textContent = tmp;
+  showToast('已交换');
 }
 
 // ==================== CITY PICKER ====================
@@ -1132,15 +1208,72 @@ function addDemandRow() {
   container.appendChild(row);
 }
 
+// ==================== PAID AD STRIP ====================
+function renderPaidAdStrip() {
+  const paidPosts = xcPosts.filter(p => p.paid);
+  const list = document.getElementById('paid-ad-list');
+  if (!list) return;
+  if (paidPosts.length === 0) {
+    list.innerHTML = '<div class="paid-ad-empty">暂无付费推广，去湘圈发布</div>';
+    return;
+  }
+
+  list.innerHTML = paidPosts.map((p, index) => `
+    <div class="paid-ad-item" onclick="switchTab('xiang')">
+      <span class="rank">${index + 1}</span>
+      <div class="paid-main">
+        <div class="paid-title">${p.user}：${p.content.replace(/\n/g,' ').substring(0, 28)}...</div>
+        <div class="paid-meta">${p.tags.join(' ')} · ${p.time}</div>
+      </div>
+      <span class="paid-role">${p.roleText}</span>
+    </div>
+  `).join('');
+}
+
+// ==================== ACTIVITY FEED ====================
+const activityData = [
+  { action:'register', type:'user', name:'张先生', text:'刚刚注册成为货主' },
+  { action:'register', type:'company', name:'长沙鑫达物流', text:'刚刚入驻平台' },
+  { action:'register', type:'user', name:'李老板', text:'刚刚注册成为货主' },
+  { action:'register', type:'company', name:'株洲中天快运', text:'刚刚入驻平台' },
+  { action:'register', type:'user', name:'王女士', text:'刚刚注册成为货主' },
+  { action:'register', type:'company', name:'湘潭通达物流', text:'刚刚入驻平台' },
+  { action:'register', type:'user', name:'刘总', text:'刚刚注册成为货主' },
+  { action:'register', type:'company', name:'湖南安吉货运', text:'刚刚入驻平台' },
+  { action:'register', type:'user', name:'陈经理', text:'刚刚注册成为货主' },
+  { action:'register', type:'company', name:'衡阳飞速物流', text:'刚刚入驻平台' },
+];
+
+function renderActivityFeed() {
+  const track = document.getElementById('af-track');
+  if (!track) return;
+  const items = [...activityData, ...activityData];
+  track.innerHTML = items.map(a => `
+    <span class="af-item">
+      ${a.type === 'user' ? '👤' : '🏢'}
+      <span class="af-highlight">${a.name}</span>
+      <span class="af-action">${a.text}</span>
+    </span>
+  `).join('');
+}
+
 // ==================== XIANG CIRCLE ====================
+let currentXcFilter = 'all';
+let isPaidPublish = false;
+
 function switchXcTab(el, type) {
   el.parentElement.querySelectorAll('.xc-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
+  currentXcFilter = type;
   renderXcFeed(type);
 }
 
 function togglePublish() {
   document.getElementById('publish-overlay').classList.toggle('hidden');
+  // Reset paid switch
+  isPaidPublish = false;
+  const sw = document.getElementById('paid-switch');
+  if (sw) sw.classList.remove('on');
 }
 
 function togglePublishType(el) {
@@ -1148,27 +1281,50 @@ function togglePublishType(el) {
   el.classList.add('active');
 }
 
-function publishPost() {
-  document.getElementById('publish-overlay').classList.add('hidden');
-  showToast('✅ 发布成功');
+function togglePaidSwitch() {
+  isPaidPublish = !isPaidPublish;
+  const sw = document.getElementById('paid-switch');
+  if (isPaidPublish) {
+    sw.classList.add('on');
+  } else {
+    sw.classList.remove('on');
+  }
 }
 
+function publishPost() {
+  document.getElementById('publish-overlay').classList.add('hidden');
+  if (isPaidPublish) {
+    showToast('✅ 付费发布成功！将在主页付费推广展示');
+  } else {
+    showToast('✅ 发布成功');
+  }
+}
+
+// xcPosts data — paid posts get special treatment
 const xcPosts = [
-  { user:'张货主', role:'owner', roleText:'货主', content:'求长沙→广州的专线，有一批五金配件要发，大概3吨左右，要求2天内到。有做这条线的请联系我！', tags:['#长沙→广州','#五金配件','#急发'], likes:12, comments:5, time:'10分钟前' },
-  { user:'顺达物流·李经理', role:'logistics', roleText:'物流公司', content:'🚛 长沙顺达物流，主营长沙↔珠三角专线运输！\n\n✅ 零担/整车/大件均可\n✅ 支持代采买服务（高桥大市场）\n✅ 天天发车，时效1-2天\n\n有需要的老板欢迎来电咨询！', tags:['#长沙→广州','#长沙→深圳','#代采买'], likes:28, comments:8, time:'1小时前' },
-  { user:'王货主', role:'owner', roleText:'货主', content:'在高桥大市场这边，想找人帮忙采购一批日用百货然后发到武汉，有没有物流公司能做代采买的？', tags:['#代采买','#长沙→武汉','#日用百货'], likes:6, comments:3, time:'2小时前' },
-  { user:'安捷物流·陈总', role:'logistics', roleText:'物流公司', content:'📢 湖南安捷物流，专注湖南→湖北专线！\n\n线路覆盖：长沙→武汉/宜昌/襄阳\n服务：零担/整车 | 支持代采买 | 三湘南湖市场合作\n\n新客户首单9折！欢迎咨询 🤝', tags:['#长沙→武汉','#湖北专线','#新客优惠'], likes:15, comments:4, time:'3小时前' },
-  { user:'刘货主', role:'owner', roleText:'货主', content:'株洲服装批发市场的老板们看过来～需要找株洲→杭州的物流专线，长期合作，每次发货量5-10包服装辅料', tags:['#株洲→杭州','#服装辅料','#长期合作'], likes:3, comments:2, time:'5小时前' },
+  { user:'顺达物流·李经理', role:'logistics', roleText:'物流公司', paid:true, content:'🚛 长沙顺达物流，主营长沙↔珠三角专线运输！\n\n✅ 零担/整车/大件均可\n✅ 支持代采买服务（高桥大市场）\n✅ 天天发车，时效1-2天\n\n有需要的老板欢迎来电咨询！', tags:['#长沙→广州','#长沙→深圳','#代采买'], likes:28, comments:8, time:'1小时前' },
+  { user:'安捷物流·陈总', role:'logistics', roleText:'物流公司', paid:true, content:'📢 湖南安捷物流，专注湖南→湖北专线！\n\n线路覆盖：长沙→武汉/宜昌/襄阳\n服务：零担/整车 | 支持代采买 | 三湘南湖市场合作\n\n新客户首单9折！欢迎咨询 🤝', tags:['#长沙→武汉','#湖北专线','#新客优惠'], likes:15, comments:4, time:'3小时前' },
+  { user:'张货主', role:'owner', roleText:'货主', paid:false, content:'求长沙→广州的专线，有一批五金配件要发，大概3吨左右，要求2天内到。有做这条线的请联系我！', tags:['#长沙→广州','#五金配件','#急发'], likes:12, comments:5, time:'10分钟前' },
+  { user:'王货主', role:'owner', roleText:'货主', paid:false, content:'在高桥大市场这边，想找人帮忙采购一批日用百货然后发到武汉，有没有物流公司能做代采买的？', tags:['#代采买','#长沙→武汉','#日用百货'], likes:6, comments:3, time:'2小时前' },
+  { user:'刘货主', role:'owner', roleText:'货主', paid:false, content:'株洲服装批发市场的老板们看过来～需要找株洲→杭州的物流专线，长期合作，每次发货量5-10包服装辅料', tags:['#株洲→杭州','#服装辅料','#长期合作'], likes:3, comments:2, time:'5小时前' },
 ];
 
 function renderXcFeed(filter) {
   const feed = document.getElementById('xc-feed');
-  let posts = xcPosts;
-  if (filter === 'cargo') posts = xcPosts.filter(p => p.role === 'owner');
-  if (filter === 'logistics') posts = xcPosts.filter(p => p.role === 'logistics');
-  
-  feed.innerHTML = posts.map(p => `
-    <div class="xc-post">
+  let posts = [...xcPosts];
+  if (filter === 'cargo') posts = posts.filter(p => p.role === 'owner');
+  if (filter === 'logistics') posts = posts.filter(p => p.role === 'logistics');
+
+  // Sort: paid posts first (置顶)
+  posts.sort((a, b) => {
+    if (a.paid && !b.paid) return -1;
+    if (!a.paid && b.paid) return 1;
+    return 0;
+  });
+
+  feed.innerHTML = posts.map((p, i) => `
+    <div class="xc-post${p.paid ? ' pinned' : ''}">
+      ${p.paid ? '<div class="xp-pin-badge">📌 付费置顶</div>' : ''}
       <div class="xp-header">
         <div class="xp-avatar">${p.role === 'owner' ? '👤' : '🚛'}</div>
         <div class="xp-user">
@@ -1276,6 +1432,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderLogisticsList();
   renderMerchantList();
   renderLogisticsRecommend();
+  renderPaidAdStrip();
+  renderActivityFeed();
 });
 </script>
 
