@@ -122,13 +122,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .entry-card .entry-title{font-size:16px;font-weight:600;color:var(--text)}
 .entry-card .entry-desc{font-size:12px;color:var(--text-secondary)}
 
-.quick-actions{display:flex;gap:0;margin:0 16px;background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.quick-action{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;cursor:pointer;transition:background .2s}
-.quick-action:active{background:#fafafa}
-.quick-action .qa-icon{font-size:22px}
-.quick-action .qa-label{font-size:11px;color:var(--text-secondary)}
-
-.banner-area{margin:16px;background:var(--card);border-radius:var(--radius);height:120px;overflow:hidden;position:relative;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.banner-area{margin:16px;background:var(--card);border-radius:var(--radius);height:196px;overflow:hidden;position:relative;box-shadow:0 2px 8px rgba(0,0,0,.04)}
 .banner-area .banner-img{width:100%;height:100%;object-fit:cover;background:linear-gradient(135deg,#e6f4ff,#bae0ff)}
 .banner-area .banner-dots{position:absolute;bottom:8px;right:12px;display:flex;gap:6px}
 .banner-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5)}
@@ -159,6 +153,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .route-city{font-size:16px;font-weight:600;color:var(--text)}
 .route-swap{width:32px;height:32px;background:var(--primary-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0}
 .route-go{width:36px;height:36px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;flex-shrink:0}
+
+.logistics-category-strip{padding:16px}
+.logistics-category-list{display:flex;gap:12px;justify-content:space-between;background:var(--card);border-radius:var(--radius);padding:14px 12px;box-shadow:0 1px 6px rgba(0,0,0,.04)}
+.logistics-category-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;min-width:0}
+.logistics-category-item:active{opacity:.85}
+.logistics-category-item .lci-icon{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--primary-light);color:var(--primary)}
+.logistics-category-item .lci-label{font-size:12px;color:var(--text-secondary);text-align:center;line-height:1.4}
 
 .filter-bar{display:flex;gap:0;background:var(--card);border-bottom:1px solid var(--border)}
 .filter-item{flex:1;text-align:center;padding:12px 0;font-size:13px;color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px}
@@ -228,15 +229,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .merchant-card .mc-tags{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
 .merchant-card .mc-logistics{font-size:11px;color:var(--text-hint);margin-top:6px}
 
-.market-browser{margin:16px}
-.market-browser .mb-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px}
-.market-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.market-item{background:var(--card);border-radius:var(--radius-sm);padding:12px;cursor:pointer;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.market-item:active{background:#fafafa}
-.market-item .mi-icon{font-size:28px;margin-bottom:6px}
-.market-item .mi-name{font-size:13px;font-weight:500;color:var(--text)}
-.market-item .mi-count{font-size:11px;color:var(--text-hint)}
-
 /* ============ MERCHANT DETAIL PAGE ============ */
 .md-header{position:relative;height:180px;background:linear-gradient(135deg,#fa8c16,#ffc53d);display:flex;align-items:flex-end;padding:16px}
 .md-header .md-thumb{width:72px;height:72px;border-radius:var(--radius-sm);background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:32px}
@@ -248,13 +240,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .xc-header{background:var(--card);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:99;border-bottom:1px solid var(--border)}
 .xc-header .xc-title{font-size:18px;font-weight:700;color:var(--text)}
 .xc-header .xc-actions{display:flex;gap:12px;align-items:center}
+.xc-header .xc-filter-btn{padding:6px 12px;border-radius:16px;background:var(--primary-light);font-size:12px;color:var(--primary);cursor:pointer;white-space:nowrap}
+.xc-header .xc-filter-btn.active{background:var(--primary);color:#fff}
 .xc-header .xc-publish-text{background:var(--primary);color:#fff;padding:6px 16px;border-radius:18px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
 .xc-header .xc-publish-text:active{background:var(--primary-dark)}
 
-.xc-tabs{display:flex;background:var(--card);padding:0 16px;border-bottom:1px solid var(--border);position:sticky;top:54px;z-index:98;gap:0}
-.xc-tab{flex:1;text-align:center;padding:10px 0;font-size:13px;color:var(--text-secondary);cursor:pointer;position:relative}
+.xc-tabs{display:flex;background:var(--card);padding:0 10px;border-bottom:1px solid var(--border);position:sticky;top:54px;z-index:98;gap:0}
+.xc-tab{flex:1;text-align:center;padding:10px 0;font-size:12px;color:var(--text-secondary);cursor:pointer;position:relative}
 .xc-tab.active{color:var(--primary);font-weight:600}
 .xc-tab.active::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:20px;height:3px;background:var(--primary);border-radius:2px}
+
+.xc-filter-summary{display:flex;flex-wrap:wrap;gap:8px;padding:10px 16px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:95px;z-index:97}
+.xc-filter-summary.hidden{display:none!important}
+.xc-filter-chip{padding:6px 12px;border-radius:16px;background:var(--primary-light);font-size:12px;color:var(--primary);cursor:pointer;transition:all .2s}
 
 .xc-feed{padding:8px 16px}
 .xc-post{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.03);position:relative}
@@ -267,6 +265,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .xc-post .xp-role{font-size:11px;color:var(--text-hint)}
 .xc-post .xp-role-badge{font-size:10px;padding:1px 6px;border-radius:3px}
 .xc-post .xp-role-badge.owner{background:var(--orange-light);color:var(--orange)}
+.xc-post .xp-role-badge.merchant{background:#f6ffed;color:var(--green)}
 .xc-post .xp-role-badge.logistics{background:var(--primary-light);color:var(--primary)}
 .xc-post .xp-content{font-size:14px;color:var(--text);line-height:1.6;margin-bottom:8px}
 .xc-post .xp-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
@@ -279,9 +278,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .publish-panel .pp-title{font-size:16px;font-weight:600;text-align:center;margin-bottom:16px}
 .publish-panel textarea{width:100%;height:120px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;font-size:14px;resize:none;outline:none;font-family:inherit}
 .publish-panel textarea:focus{border-color:var(--primary)}
-.publish-panel .pp-type{display:flex;gap:10px;margin:12px 0}
-.pp-type-option{flex:1;text-align:center;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;cursor:pointer}
-.pp-type-option.active{border-color:var(--primary);background:var(--primary-light);color:var(--primary)}
+.publish-panel .pp-field{margin:12px 0}
+.publish-panel .pp-label{font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px}
+.publish-panel .pp-select{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;background:var(--card);outline:none;font-family:inherit}
+.publish-panel .pp-select:focus{border-color:var(--primary)}
 .pp-tag-input{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 .pp-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:var(--bg);border-radius:12px;font-size:12px;color:var(--text-secondary)}
 .pp-tag .remove{cursor:pointer;font-size:14px;line-height:1}
@@ -297,6 +297,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .pp-paid-option .ppo-switch.on{background:var(--gold)}
 .pp-paid-option .ppo-switch::after{content:'';position:absolute;top:2px;left:2px;width:22px;height:22px;background:#fff;border-radius:50%;transition:transform .3s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .pp-paid-option .ppo-switch.on::after{transform:translateX(22px)}
+
+.filter-sheet-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:220;display:flex;align-items:flex-end;justify-content:center}
+.filter-sheet{width:390px;background:var(--card);border-radius:16px 16px 0 0;padding:20px 16px 16px;max-height:80vh;overflow-y:auto}
+.filter-sheet-title{font-size:16px;font-weight:600;text-align:center;margin-bottom:16px}
+.filter-group{margin-bottom:18px}
+.filter-group-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:10px}
+.filter-group-options{display:flex;flex-wrap:wrap;gap:8px}
+.filter-option{padding:8px 14px;border-radius:18px;background:var(--bg);font-size:13px;color:var(--text-secondary);cursor:pointer}
+.filter-option.active{background:var(--primary-light);color:var(--primary)}
+.filter-option.disabled{background:#f5f5f5;color:#bbb;cursor:not-allowed}
+.filter-sheet-actions{display:flex;gap:10px;margin-top:6px}
+.filter-sheet-actions .btn{flex:1}
 
 /* ============ MESSAGES PAGE ============ */
 .msg-list{margin-top:0}
@@ -336,6 +348,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .profile-menu-item .pm-text{flex:1;font-size:14px;color:var(--text)}
 .profile-menu-item .pm-arrow{color:var(--text-hint);font-size:14px}
 .profile-menu-item .pm-badge{font-size:11px;color:var(--text-hint)}
+
+.profile-membership{background:var(--card);margin:12px 16px;border-radius:var(--radius);padding:16px;box-shadow:0 1px 6px rgba(0,0,0,.04);display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.profile-membership:active{background:#fafafa}
+.profile-membership .pmem-title{font-size:15px;font-weight:600;color:var(--text)}
+.profile-membership .pmem-desc{font-size:12px;color:var(--text-hint);margin-top:4px}
 
 /* Sub pages */
 .sub-page-header{display:flex;align-items:center;justify-content:center;padding:12px 16px;background:var(--card);font-size:16px;font-weight:600;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:99}
@@ -449,25 +466,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
       </div>
     </div>
 
-    <div class="quick-actions">
-      <div class="quick-action" onclick="navigateTo('logistics-search')">
-        <div class="qa-icon">📍</div>
-        <div class="qa-label">附近专线</div>
-      </div>
-      <div class="quick-action" onclick="navigateTo('merchant-search')">
-        <div class="qa-icon">🏭</div>
-        <div class="qa-label">产地货源</div>
-      </div>
-      <div class="quick-action" onclick="navigateTo('merchant-search')">
-        <div class="qa-icon">📦</div>
-        <div class="qa-label">品类浏览</div>
-      </div>
-      <div class="quick-action" onclick="navigateTo('demand-form')">
-        <div class="qa-icon">📋</div>
-        <div class="qa-label">委托采购</div>
-      </div>
-    </div>
-
     <!-- 注册/入驻滚动播报 -->
     <div class="activity-feed" id="activity-feed">
       <span class="af-icon">📢</span>
@@ -505,6 +503,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
       <div class="xc-title">🏘️ 湘圈</div>
       <div class="xc-actions">
         <span style="font-size:18px;cursor:pointer" onclick="showToast('搜索功能开发中')">🔍</span>
+        <div class="xc-filter-btn" id="xc-filter-btn" onclick="toggleXcFilterSheet()">筛选</div>
         <div class="xc-publish-text" onclick="togglePublish()">发布</div>
       </div>
     </div>
@@ -512,7 +511,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
       <div class="xc-tab active" onclick="switchXcTab(this,'all')">全部</div>
       <div class="xc-tab" onclick="switchXcTab(this,'cargo')">货主圈</div>
       <div class="xc-tab" onclick="switchXcTab(this,'logistics')">物流圈</div>
+      <div class="xc-tab" onclick="switchXcTab(this,'merchant')">商家圈</div>
     </div>
+    <div class="xc-filter-summary hidden" id="xc-filter-summary"></div>
     <div class="xc-feed" id="xc-feed">
       <!-- Posts rendered by JS -->
     </div>
@@ -560,6 +561,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
       <div style="font-size:14px;opacity:.7">›</div>
     </div>
 
+    <div class="profile-membership" onclick="showToast('会员中心开发中')">
+      <div>
+        <div class="pmem-title">成为会员</div>
+        <div class="pmem-desc">解锁更多曝光和精准撮合能力</div>
+      </div>
+      <div class="pm-arrow">›</div>
+    </div>
+
     <div class="profile-menu">
       <div class="profile-menu-item" onclick="navigateTo('merchant-register')">
         <div class="pm-icon" style="background:var(--orange-light)">🏪</div>
@@ -568,8 +577,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
       </div>
       <div class="profile-menu-item" onclick="navigateTo('fav-routes')">
         <div class="pm-icon" style="background:var(--primary-light)">⭐</div>
-        <div class="pm-text">线路收藏</div>
-        <div class="pm-badge">3条</div>
+        <div class="pm-text">我的收藏</div>
+        <div class="pm-badge">商家 3 | 物流 3</div>
         <div class="pm-arrow">›</div>
       </div>
       <div class="profile-menu-item" onclick="navigateTo('my-orders')">
@@ -618,25 +627,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
         <div class="route-go" onclick="navigateTo('logistics-results')">→</div>
       </div>
     </div>
-    <div class="section-title">📍 热门出发城市</div>
-    <div style="padding:0 16px;display:flex;flex-wrap:wrap;gap:8px">
-      <span class="cat-chip active" onclick="setFromCity(this,'长沙')">长沙</span>
-      <span class="cat-chip" onclick="setFromCity(this,'株洲')">株洲</span>
-      <span class="cat-chip" onclick="setFromCity(this,'湘潭')">湘潭</span>
-      <span class="cat-chip" onclick="setFromCity(this,'衡阳')">衡阳</span>
-      <span class="cat-chip" onclick="setFromCity(this,'岳阳')">岳阳</span>
-      <span class="cat-chip" onclick="setFromCity(this,'常德')">常德</span>
-      <span class="cat-chip" onclick="setFromCity(this,'郴州')">郴州</span>
-    </div>
-    <div class="section-title">📍 热门目的城市</div>
-    <div style="padding:0 16px;display:flex;flex-wrap:wrap;gap:8px">
-      <span class="cat-chip active" onclick="setToCity(this,'广州')">广州</span>
-      <span class="cat-chip" onclick="setToCity(this,'深圳')">深圳</span>
-      <span class="cat-chip" onclick="setToCity(this,'武汉')">武汉</span>
-      <span class="cat-chip" onclick="setToCity(this,'上海')">上海</span>
-      <span class="cat-chip" onclick="setToCity(this,'北京')">北京</span>
-      <span class="cat-chip" onclick="setToCity(this,'成都')">成都</span>
-      <span class="cat-chip" onclick="setToCity(this,'重庆')">重庆</span>
+    <div class="logistics-category-strip">
+      <div class="logistics-category-list">
+        <div class="logistics-category-item" onclick="showToast('专线物流')">
+          <div class="lci-icon">🚚</div>
+          <div class="lci-label">专线物流</div>
+        </div>
+        <div class="logistics-category-item" onclick="showToast('快运物流')">
+          <div class="lci-icon">🚛</div>
+          <div class="lci-label">快运物流</div>
+        </div>
+        <div class="logistics-category-item" onclick="showToast('云仓服务')">
+          <div class="lci-icon">🌐</div>
+          <div class="lci-label">云仓服务</div>
+        </div>
+        <div class="logistics-category-item" onclick="showToast('城市配送')">
+          <div class="lci-icon">📦</div>
+          <div class="lci-label">城市配送</div>
+        </div>
+      </div>
     </div>
 
     <div class="section-title">⭐ 推荐专线公司</div>
@@ -756,15 +765,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
       <span class="cat-chip">塑料制品</span>
       <span class="cat-chip">电子电器</span>
       <span class="cat-chip">农副产品</span>
-    </div>
-    <div class="market-browser">
-      <div class="mb-title">🏬 按市场浏览</div>
-      <div class="market-grid">
-        <div class="market-item" onclick="showToast('高桥大市场商家列表')"><div class="mi-icon">🏬</div><div class="mi-name">高桥大市场</div><div class="mi-count">56家商家</div></div>
-        <div class="market-item" onclick="showToast('三湘南湖市场商家列表')"><div class="mi-icon">🏪</div><div class="mi-name">三湘南湖市场</div><div class="mi-count">42家商家</div></div>
-        <div class="market-item" onclick="showToast('红星市场商家列表')"><div class="mi-icon">🏢</div><div class="mi-name">红星大市场</div><div class="mi-count">38家商家</div></div>
-        <div class="market-item" onclick="showToast('马王堆市场商家列表')"><div class="mi-icon">🏭</div><div class="mi-name">马王堆市场</div><div class="mi-count">29家商家</div></div>
-      </div>
     </div>
     <div class="section-title">⭐ 推荐商家</div>
     <div id="merchant-list"></div>
@@ -932,21 +932,58 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 
   <!-- Favorite Routes -->
   <div class="screen page" id="page-fav-routes">
-    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>线路收藏</div>
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>我的收藏</div>
+    <div style="padding-top:8px">
+      <div class="fav-route" onclick="navigateTo('fav-logistics')">
+        <div class="fr-route">🚚 物流收藏</div>
+        <div class="fr-count">3条</div>
+        <div class="fr-arrow">›</div>
+      </div>
+      <div class="fav-route" onclick="navigateTo('fav-merchants')">
+        <div class="fr-route">🏪 商家收藏</div>
+        <div class="fr-count">3家</div>
+        <div class="fr-arrow">›</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen page" id="page-fav-logistics">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>物流收藏</div>
     <div style="padding-top:8px">
       <div class="fav-route" onclick="navigateTo('company-detail')">
-        <div class="fr-route">🚚 长沙 → 广州</div>
-        <div class="fr-count">38条专线</div>
+        <div class="fr-route">🚚 长沙顺达物流</div>
+        <div class="fr-count">高桥合作 | 1-2天达</div>
         <div class="fr-arrow">›</div>
       </div>
       <div class="fav-route" onclick="navigateTo('company-detail')">
-        <div class="fr-route">🚚 长沙 → 深圳</div>
-        <div class="fr-count">32条专线</div>
+        <div class="fr-route">🚚 湖南安捷物流</div>
+        <div class="fr-count">湖北专线 | 支持代采买</div>
         <div class="fr-arrow">›</div>
       </div>
       <div class="fav-route" onclick="navigateTo('company-detail')">
-        <div class="fr-route">🚚 株洲 → 广州</div>
-        <div class="fr-count">21条专线</div>
+        <div class="fr-route">🚚 星沙快运</div>
+        <div class="fr-count">深圳惠州线 | 天天班</div>
+        <div class="fr-arrow">›</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen page" id="page-fav-merchants">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>商家收藏</div>
+    <div style="padding-top:8px">
+      <div class="fav-route" onclick="navigateTo('merchant-detail')">
+        <div class="fr-route">🏪 张记五金批发</div>
+        <div class="fr-count">高桥大市场 | 五金建材</div>
+        <div class="fr-arrow">›</div>
+      </div>
+      <div class="fav-route" onclick="navigateTo('merchant-detail')">
+        <div class="fr-route">🏪 鑫达建材商行</div>
+        <div class="fr-count">三湘南湖 | 建材辅料</div>
+        <div class="fr-arrow">›</div>
+      </div>
+      <div class="fav-route" onclick="navigateTo('merchant-detail')">
+        <div class="fr-route">🏪 宏发百货批发</div>
+        <div class="fr-count">高桥大市场 | 日用百货</div>
         <div class="fr-arrow">›</div>
       </div>
     </div>
@@ -1068,9 +1105,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
     <div class="publish-panel">
       <div class="pp-title">📝 发布动态</div>
       <textarea placeholder="说点什么...&#10;货主可以发布求车信息，物流公司可以推广线路..."></textarea>
-      <div class="pp-type">
-        <div class="pp-type-option" onclick="togglePublishType(this)">我是货主</div>
-        <div class="pp-type-option active" onclick="togglePublishType(this)">我是物流</div>
+      <div class="pp-field">
+        <div class="pp-label">发布身份</div>
+        <select class="pp-select" id="publish-identity">
+          <option>货主-找物流</option>
+          <option>货主-找采购</option>
+          <option>商家-找货主</option>
+          <option>商家-找物流</option>
+          <option>物流-找货主</option>
+          <option>物流-找商家</option>
+          <option>其他</option>
+        </select>
       </div>
 
       <!-- 付费发布选项 -->
@@ -1090,6 +1135,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
         <span class="pp-add-tag" onclick="showToast('添加标签')">+ 添加标签</span>
       </div>
       <button class="btn btn-primary btn-block" style="margin-top:12px" onclick="publishPost()">发布</button>
+    </div>
+  </div>
+
+  <div class="filter-sheet-overlay hidden" id="xc-filter-sheet" onclick="if(event.target===this)toggleXcFilterSheet(false)">
+    <div class="filter-sheet">
+      <div class="filter-sheet-title">筛选动态</div>
+      <div class="filter-group">
+        <div class="filter-group-title">身份</div>
+        <div class="filter-group-options" id="xc-identity-options"></div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-group-title">诉求</div>
+        <div class="filter-group-options" id="xc-target-options"></div>
+      </div>
+      <div class="filter-sheet-actions">
+        <button class="btn btn-outline" onclick="resetXcFilters()">重置</button>
+        <button class="btn btn-primary" onclick="applyXcFilters()">确定</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1259,26 +1322,50 @@ function renderActivityFeed() {
 
 // ==================== XIANG CIRCLE ====================
 let currentXcFilter = 'all';
+let currentXcIdentity = 'all';
+let currentXcTarget = 'all';
+let draftXcIdentity = 'all';
+let draftXcTarget = 'all';
 let isPaidPublish = false;
+const xcIdentityOptions = ['all', '货主', '商家', '物流', '其他'];
+const xcTargetOptions = ['all', '找货主', '找物流', '找采购', '找商家', '其他'];
+const xcTargetByIdentity = {
+  'all': ['all', '找货主', '找物流', '找采购', '找商家'],
+  '货主': ['all', '找物流', '找采购', '找商家'],
+  '商家': ['all', '找货主', '找物流'],
+  '物流': ['all', '找货主', '找商家'],
+  '其他': ['all', '其他'],
+};
+
+function getAvailableTargets(identity) {
+  return xcTargetByIdentity[identity] || xcTargetByIdentity.all;
+}
+
+function normalizeDraftFilters() {
+  const allowedTargets = getAvailableTargets(draftXcIdentity);
+  if (!allowedTargets.includes(draftXcTarget)) {
+    draftXcTarget = draftXcIdentity === '其他' ? '其他' : 'all';
+  }
+}
 
 function switchXcTab(el, type) {
   el.parentElement.querySelectorAll('.xc-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
   currentXcFilter = type;
+  currentXcIdentity = 'all';
+  currentXcTarget = 'all';
+  draftXcIdentity = 'all';
+  draftXcTarget = 'all';
+  renderXcFilterSummary();
+  updateXcFilterButton();
   renderXcFeed(type);
 }
 
 function togglePublish() {
   document.getElementById('publish-overlay').classList.toggle('hidden');
-  // Reset paid switch
   isPaidPublish = false;
   const sw = document.getElementById('paid-switch');
   if (sw) sw.classList.remove('on');
-}
-
-function togglePublishType(el) {
-  el.parentElement.querySelectorAll('.pp-type-option').forEach(o => o.classList.remove('active'));
-  el.classList.add('active');
 }
 
 function togglePaidSwitch() {
@@ -1292,30 +1379,112 @@ function togglePaidSwitch() {
 }
 
 function publishPost() {
+  const identity = document.getElementById('publish-identity');
   document.getElementById('publish-overlay').classList.add('hidden');
   if (isPaidPublish) {
-    showToast('✅ 付费发布成功！将在主页付费推广展示');
+    showToast(`✅ ${identity ? identity.value : '动态'} 发布成功，将在主页付费推广展示`);
   } else {
-    showToast('✅ 发布成功');
+    showToast(`✅ ${identity ? identity.value : '动态'} 发布成功`);
   }
 }
 
-// xcPosts data — paid posts get special treatment
+function toggleXcFilterSheet(force) {
+  const sheet = document.getElementById('xc-filter-sheet');
+  if (!sheet) return;
+  const shouldShow = typeof force === 'boolean' ? force : sheet.classList.contains('hidden');
+  if (shouldShow) {
+    draftXcIdentity = currentXcIdentity;
+    draftXcTarget = currentXcTarget;
+    renderXcFilterSheet();
+    sheet.classList.remove('hidden');
+    return;
+  }
+  sheet.classList.add('hidden');
+}
+
+function renderXcFilterSheet() {
+  const identityContainer = document.getElementById('xc-identity-options');
+  const targetContainer = document.getElementById('xc-target-options');
+  if (!identityContainer || !targetContainer) return;
+  const allowedTargets = getAvailableTargets(draftXcIdentity);
+
+  identityContainer.innerHTML = xcIdentityOptions.map(option => `
+    <span class="filter-option${draftXcIdentity === option ? ' active' : ''}" onclick="setDraftXcIdentity('${option}')">${option === 'all' ? '全部' : option}</span>
+  `).join('');
+  targetContainer.innerHTML = xcTargetOptions.map(option => `
+    <span class="filter-option${draftXcTarget === option ? ' active' : ''}${allowedTargets.includes(option) ? '' : ' disabled'}" onclick="setDraftXcTarget('${option}')">${option === 'all' ? '全部' : option}</span>
+  `).join('');
+}
+
+function setDraftXcIdentity(option) {
+  draftXcIdentity = option;
+  normalizeDraftFilters();
+  renderXcFilterSheet();
+}
+
+function setDraftXcTarget(option) {
+  if (!getAvailableTargets(draftXcIdentity).includes(option)) return;
+  draftXcTarget = option;
+  renderXcFilterSheet();
+}
+
+function resetXcFilters() {
+  draftXcIdentity = 'all';
+  draftXcTarget = 'all';
+  renderXcFilterSheet();
+}
+
+function applyXcFilters() {
+  normalizeDraftFilters();
+  currentXcIdentity = draftXcIdentity;
+  currentXcTarget = draftXcTarget;
+  toggleXcFilterSheet(false);
+  renderXcFilterSummary();
+  updateXcFilterButton();
+  renderXcFeed(currentXcFilter);
+}
+
+function renderXcFilterSummary() {
+  const summary = document.getElementById('xc-filter-summary');
+  if (!summary) return;
+  const items = [];
+  if (currentXcIdentity !== 'all') items.push(currentXcIdentity);
+  if (currentXcTarget !== 'all') items.push(currentXcTarget);
+  if (items.length === 0) {
+    summary.classList.add('hidden');
+    summary.innerHTML = '';
+    return;
+  }
+  summary.classList.remove('hidden');
+  summary.innerHTML = items.map(item => `<span class="xc-filter-chip">${item}</span>`).join('');
+}
+
+function updateXcFilterButton() {
+  const btn = document.getElementById('xc-filter-btn');
+  if (!btn) return;
+  const active = currentXcIdentity !== 'all' || currentXcTarget !== 'all';
+  btn.classList.toggle('active', active);
+}
+
 const xcPosts = [
-  { user:'顺达物流·李经理', role:'logistics', roleText:'物流公司', paid:true, content:'🚛 长沙顺达物流，主营长沙↔珠三角专线运输！\n\n✅ 零担/整车/大件均可\n✅ 支持代采买服务（高桥大市场）\n✅ 天天发车，时效1-2天\n\n有需要的老板欢迎来电咨询！', tags:['#长沙→广州','#长沙→深圳','#代采买'], likes:28, comments:8, time:'1小时前' },
-  { user:'安捷物流·陈总', role:'logistics', roleText:'物流公司', paid:true, content:'📢 湖南安捷物流，专注湖南→湖北专线！\n\n线路覆盖：长沙→武汉/宜昌/襄阳\n服务：零担/整车 | 支持代采买 | 三湘南湖市场合作\n\n新客户首单9折！欢迎咨询 🤝', tags:['#长沙→武汉','#湖北专线','#新客优惠'], likes:15, comments:4, time:'3小时前' },
-  { user:'张货主', role:'owner', roleText:'货主', paid:false, content:'求长沙→广州的专线，有一批五金配件要发，大概3吨左右，要求2天内到。有做这条线的请联系我！', tags:['#长沙→广州','#五金配件','#急发'], likes:12, comments:5, time:'10分钟前' },
-  { user:'王货主', role:'owner', roleText:'货主', paid:false, content:'在高桥大市场这边，想找人帮忙采购一批日用百货然后发到武汉，有没有物流公司能做代采买的？', tags:['#代采买','#长沙→武汉','#日用百货'], likes:6, comments:3, time:'2小时前' },
-  { user:'刘货主', role:'owner', roleText:'货主', paid:false, content:'株洲服装批发市场的老板们看过来～需要找株洲→杭州的物流专线，长期合作，每次发货量5-10包服装辅料', tags:['#株洲→杭州','#服装辅料','#长期合作'], likes:3, comments:2, time:'5小时前' },
+  { user:'顺达物流·李经理', role:'logistics', roleText:'物流公司', identity:'物流', target:'找货主', status:'物流-找货主', paid:true, content:'🚛 长沙顺达物流，主营长沙↔珠三角专线运输！\n\n✅ 零担/整车/大件均可\n✅ 支持代采买服务（高桥大市场）\n✅ 天天发车，时效1-2天\n\n有需要发货的货主欢迎联系！', tags:['#长沙→广州','#长沙→深圳','#代采买'], likes:28, comments:8, time:'1小时前' },
+  { user:'安捷物流·陈总', role:'logistics', roleText:'物流公司', identity:'物流', target:'找商家', status:'物流-找商家', paid:true, content:'📢 湖南安捷物流，专注湖南→湖北专线！\n\n线路覆盖：长沙→武汉/宜昌/襄阳\n服务：零担/整车 | 支持代采买 | 三湘南湖市场合作\n\n欢迎有稳定货源的商家合作 🤝', tags:['#长沙→武汉','#湖北专线','#新客优惠'], likes:15, comments:4, time:'3小时前' },
+  { user:'张货主', role:'owner', roleText:'货主', identity:'货主', target:'找物流', status:'货主-找物流', paid:false, content:'求长沙→广州的专线，有一批五金配件要发，大概3吨左右，要求2天内到。有做这条线的请联系我！', tags:['#长沙→广州','#五金配件','#急发'], likes:12, comments:5, time:'10分钟前' },
+  { user:'王货主', role:'owner', roleText:'货主', identity:'货主', target:'找采购', status:'货主-找采购', paid:false, content:'在高桥大市场这边，想找人帮忙采购一批日用百货然后发到武汉，有没有物流公司能做代采买的？', tags:['#代采买','#长沙→武汉','#日用百货'], likes:6, comments:3, time:'2小时前' },
+  { user:'宏发百货', role:'merchant', roleText:'商家', identity:'商家', target:'找货主', status:'商家-找货主', paid:false, content:'高桥市场现货供应塑料收纳箱、日用百货，支持批量出货，正在找长期合作货主。', tags:['#高桥市场','#日用百货','#现货供应'], likes:9, comments:2, time:'4小时前' },
+  { user:'张记五金批发', role:'merchant', roleText:'商家', identity:'商家', target:'找物流', status:'商家-找物流', paid:false, content:'门店近期有一批五金建材要发往广州和东莞，想对接稳定的专线物流，长期合作优先。', tags:['#五金建材','#广州专线','#长期合作'], likes:5, comments:1, time:'5小时前' },
+  { user:'刘货主', role:'owner', roleText:'货主', identity:'其他', target:'其他', status:'其他', paid:false, content:'株洲服装批发市场的老板们看过来，长期发杭州线路，每次5-10包服装辅料，欢迎交流。', tags:['#株洲→杭州','#服装辅料','#长期合作'], likes:3, comments:2, time:'5小时前' },
 ];
 
 function renderXcFeed(filter) {
   const feed = document.getElementById('xc-feed');
   let posts = [...xcPosts];
   if (filter === 'cargo') posts = posts.filter(p => p.role === 'owner');
+  if (filter === 'merchant') posts = posts.filter(p => p.role === 'merchant');
   if (filter === 'logistics') posts = posts.filter(p => p.role === 'logistics');
+  if (currentXcIdentity !== 'all') posts = posts.filter(p => p.identity === currentXcIdentity);
+  if (currentXcTarget !== 'all') posts = posts.filter(p => p.target === currentXcTarget);
 
-  // Sort: paid posts first (置顶)
   posts.sort((a, b) => {
     if (a.paid && !b.paid) return -1;
     if (!a.paid && b.paid) return 1;
@@ -1326,13 +1495,14 @@ function renderXcFeed(filter) {
     <div class="xc-post${p.paid ? ' pinned' : ''}">
       ${p.paid ? '<div class="xp-pin-badge">📌 付费置顶</div>' : ''}
       <div class="xp-header">
-        <div class="xp-avatar">${p.role === 'owner' ? '👤' : '🚛'}</div>
+        <div class="xp-avatar">${p.role === 'owner' ? '👤' : p.role === 'merchant' ? '🏪' : '🚛'}</div>
         <div class="xp-user">
           <div class="xp-name">${p.user} <span class="xp-role-badge ${p.role}">${p.roleText}</span></div>
           <div class="xp-role">${p.time}</div>
         </div>
       </div>
       <div class="xp-content">${p.content.replace(/\n/g,'<br>')}</div>
+      <div style="margin-bottom:8px"><span class="tag tag-orange">${p.status}</span></div>
       <div class="xp-tags">${p.tags.map(t => `<span class="tag tag-blue">${t}</span>`).join('')}</div>
       <div class="xp-footer">
         <span onclick="showToast('点赞')">👍 ${p.likes}</span>
@@ -1428,6 +1598,8 @@ function renderLogisticsRecommend() {
 
 // ==================== INIT ====================
 document.addEventListener('DOMContentLoaded', () => {
+  renderXcFilterSummary();
+  updateXcFilterButton();
   renderXcFeed('all');
   renderLogisticsList();
   renderMerchantList();
