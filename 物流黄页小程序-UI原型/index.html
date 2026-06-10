@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>物流黄页小程序 · UI原型 v1.1</title>
+<title>物流黄页小程序 · UI原型 v1.2</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -212,6 +212,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 
 .detail-sticky-bottom{position:sticky;bottom:0;background:var(--card);padding:12px 16px;display:flex;gap:10px;border-top:1px solid var(--border);z-index:10;padding-bottom:max(12px,env(safe-area-inset-bottom))}
 .detail-sticky-bottom .btn{flex:1}
+.detail-sticky-bottom .quick-action{flex:0 0 52px;flex-direction:column;gap:2px;padding:6px 0;border-color:var(--border);color:var(--text-secondary);font-size:16px}
+.detail-sticky-bottom .quick-action small{font-size:10px;line-height:1;color:var(--text-secondary)}
+.detail-sticky-bottom .btn-contact{flex:1.15;white-space:nowrap;padding:8px 10px}
 .btn-phone{background:var(--green);color:#fff}
 
 /* ============ FIND MERCHANT PAGE ============ */
@@ -297,6 +300,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .pp-paid-option .ppo-switch.on{background:var(--gold)}
 .pp-paid-option .ppo-switch::after{content:'';position:absolute;top:2px;left:2px;width:22px;height:22px;background:#fff;border-radius:50%;transition:transform .3s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .pp-paid-option .ppo-switch.on::after{transform:translateX(22px)}
+.pp-paid-note{font-size:11px;color:var(--text-hint);line-height:1.5;margin:-4px 0 10px}
 
 .filter-sheet-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:220;display:flex;align-items:flex-end;justify-content:center}
 .filter-sheet{width:390px;background:var(--card);border-radius:16px 16px 0 0;padding:20px 16px 16px;max-height:80vh;overflow-y:auto}
@@ -373,6 +377,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .form-textarea:focus{border-color:var(--primary)}
 .form-select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;outline:none;background:var(--card);font-family:inherit}
 .form-submit{margin-top:20px}
+.info-note{font-size:12px;color:var(--text-secondary);line-height:1.6;background:#fafafa;border-radius:var(--radius-sm);padding:10px 12px}
+.auth-note{font-size:12px;color:var(--primary);line-height:1.6;background:var(--primary-light);border-radius:var(--radius-sm);padding:10px 12px;margin-top:8px}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.stat-card{background:#fafafa;border-radius:var(--radius-sm);padding:10px 8px;text-align:center}
+.stat-card .num{font-size:16px;font-weight:700;color:var(--text)}
+.stat-card .label{font-size:11px;color:var(--text-hint);margin-top:2px}
+.coupon-card,.lead-card{background:var(--card);margin:8px 16px;border-radius:var(--radius);padding:14px 16px;box-shadow:0 1px 6px rgba(0,0,0,.04)}
+.coupon-card .coupon-head,.lead-card .lead-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.coupon-card .coupon-title,.lead-card .lead-title{font-size:15px;font-weight:600;color:var(--text)}
+.coupon-card .coupon-desc,.lead-card .lead-desc{font-size:12px;color:var(--text-secondary);line-height:1.6}
+.coupon-card .coupon-actions{display:flex;gap:8px;margin-top:12px}
+.coupon-card .coupon-actions .btn{flex:1}
+.lead-card .oc-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.lead-card .oc-time{font-size:11px;color:var(--text-hint)}
+.city-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.city-grid .city-option{padding:10px 0;background:#fafafa;border-radius:var(--radius-sm);text-align:center;font-size:13px;color:var(--text);cursor:pointer}
+.city-grid .city-option:active{background:var(--primary-light);color:var(--primary)}
 
 /* Order card */
 .order-card{background:var(--card);margin:8px 16px;border-radius:var(--radius);padding:16px;box-shadow:0 1px 6px rgba(0,0,0,.04)}
@@ -439,13 +460,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
     <div class="home-header">
       <div class="location">📍 当前城市 <span class="city">长沙 ▼</span></div>
       <div class="home-route-picker">
-        <div class="rp-city" onclick="showToast('选择出发城市')">
+        <div class="rp-city" onclick="showHomeCityPicker('from')">
           <span class="rp-label">出发</span>
           <span class="rp-name" id="home-from-city">长沙</span>
         </div>
         <div class="rp-swap" onclick="swapHomeCities()">⇄</div>
         <div class="rp-arrow">→</div>
-        <div class="rp-city" onclick="showToast('选择目的城市')">
+        <div class="rp-city" onclick="showHomeCityPicker('to')">
           <span class="rp-label">到达</span>
           <span class="rp-name" id="home-to-city">广州</span>
         </div>
@@ -510,8 +531,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
     <div class="xc-tabs">
       <div class="xc-tab active" onclick="switchXcTab(this,'all')">全部</div>
       <div class="xc-tab" onclick="switchXcTab(this,'cargo')">货主圈</div>
-      <div class="xc-tab" onclick="switchXcTab(this,'logistics')">物流圈</div>
       <div class="xc-tab" onclick="switchXcTab(this,'merchant')">商家圈</div>
+      <div class="xc-tab" onclick="switchXcTab(this,'logistics')">物流圈</div>
     </div>
     <div class="xc-filter-summary hidden" id="xc-filter-summary"></div>
     <div class="xc-feed" id="xc-feed">
@@ -561,10 +582,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
       <div style="font-size:14px;opacity:.7">›</div>
     </div>
 
-    <div class="profile-membership" onclick="showToast('会员中心开发中')">
+    <div class="profile-membership" onclick="navigateTo('logistics-member')">
       <div>
-        <div class="pmem-title">成为会员</div>
-        <div class="pmem-desc">解锁更多曝光和精准撮合能力</div>
+        <div class="pmem-title">物流会员中心</div>
+        <div class="pmem-desc">认证入驻、VIP权益、推广券和商机通知</div>
       </div>
       <div class="pm-arrow">›</div>
     </div>
@@ -585,6 +606,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
         <div class="pm-icon" style="background:var(--green-light)">📋</div>
         <div class="pm-text">我的订单</div>
         <div class="pm-badge">2个进行中</div>
+        <div class="pm-arrow">›</div>
+      </div>
+      <div class="profile-menu-item" onclick="navigateTo('promotion-coupons')">
+        <div class="pm-icon" style="background:var(--gold-light)">🎟️</div>
+        <div class="pm-text">推广券包</div>
+        <div class="pm-badge">3张可用</div>
+        <div class="pm-arrow">›</div>
+      </div>
+      <div class="profile-menu-item" onclick="navigateTo('business-leads')">
+        <div class="pm-icon" style="background:var(--primary-light)">🔔</div>
+        <div class="pm-text">我的商机</div>
+        <div class="pm-badge">5条新商机</div>
         <div class="pm-arrow">›</div>
       </div>
       <div class="profile-menu-item" onclick="navigateTo('browsing-history')">
@@ -657,7 +690,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
     <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>长沙 → 广州 专线</div>
     <div class="filter-bar">
       <div class="filter-item active">综合排序</div>
-      <div class="filter-item">评价↓</div>
+      <div class="filter-item">时效↓</div>
       <div class="filter-item">价格↓</div>
       <div class="filter-item">筛选</div>
     </div>
@@ -740,9 +773,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 
     <div style="height:80px"></div>
     <div class="detail-sticky-bottom">
-      <button class="btn btn-outline" style="flex:0 0 auto;padding:10px 14px" onclick="showToast('已收藏')">⭐ 收藏</button>
-      <button class="btn btn-outline" style="flex:0 0 auto;padding:10px 14px" onclick="showToast('已分享')">↗ 分享</button>
-      <button class="btn btn-primary btn-phone" onclick="showToast('正在拨打 0731-8888**** ...')">📞 拨打电话</button>
+      <button class="btn btn-outline quick-action" onclick="showToast('已收藏')"><span>⭐</span><small>收藏</small></button>
+      <button class="btn btn-outline quick-action" onclick="showToast('已分享')"><span>↗</span><small>分享</small></button>
+      <button class="btn btn-outline btn-contact" onclick="toggleContactRequest(true)">让物流联系我</button>
+      <button class="btn btn-primary btn-phone" onclick="showToast('正在拨打 0731-8888**** ...')">拨打电话</button>
     </div>
   </div>
 
@@ -842,6 +876,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
         <input class="form-input" value="长沙顺达物流" readonly style="background:#f9f9f9">
       </div>
       <div class="form-group">
+        <div class="form-label">关联商家（选填）</div>
+        <input class="form-input" placeholder="从商家名片进入时自动带入，可为空" style="background:#f9f9f9">
+      </div>
+      <div class="form-group">
         <div class="form-label"><span class="required">*</span> 采购清单</div>
         <div id="demand-items">
           <div class="demand-item-row">
@@ -874,6 +912,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
           <span class="demand-cat" style="border-radius:16px" onclick="toggleDemandCat(this)">一周内</span>
           <span class="demand-cat" style="border-radius:16px" onclick="toggleDemandCat(this)">不急</span>
         </div>
+      </div>
+      <div class="form-group">
+        <div class="form-label"><span class="required">*</span> 联系方式</div>
+        <input class="form-input" value="138****6789" placeholder="手机号 / 微信号">
+        <div class="auth-note">提交需求即视为仅授权关联物流公司查看联系方式；需求关闭或用户撤回后停止展示。</div>
       </div>
       <div class="form-submit">
         <button class="btn btn-primary btn-lg btn-block" onclick="showToast('✅ 委托已提交，物流公司将联系您')">提交委托</button>
@@ -989,6 +1032,164 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
     </div>
   </div>
 
+  <!-- Logistics Member Center -->
+  <div class="screen page" id="page-logistics-member">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>物流会员中心</div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="company-logo">🚛</div>
+        <div style="flex:1;min-width:0">
+          <div class="company-name">长沙顺达物流 <span class="vip-badge">VIP</span> <span class="tag tag-green">认证物流</span></div>
+          <div style="font-size:12px;color:var(--text-hint);margin-top:4px">会员有效期至 2026-07-10</div>
+        </div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="num">8</div><div class="label">今日搜索曝光</div></div>
+        <div class="stat-card"><div class="num">3</div><div class="label">新商机</div></div>
+        <div class="stat-card"><div class="num">2</div><div class="label">可用券</div></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn btn-outline btn-sm" style="flex:1" onclick="navigateTo('logistics-verification')">认证资料</button>
+        <button class="btn btn-outline btn-sm" style="flex:1" onclick="navigateTo('promotion-coupons')">推广券包</button>
+        <button class="btn btn-primary btn-sm" style="flex:1" onclick="showToast('发起微信支付续费')">续费会员</button>
+      </div>
+    </div>
+
+    <div class="section-title">会员等级权益</div>
+    <div class="card" style="margin-top:4px">
+      <div class="route-list">
+        <div class="route-item">
+          <div class="ri-line"><div class="ri-route">普通入驻</div><div class="ri-time">正常使用小程序功能，无特殊权益</div></div>
+          <span class="tag tag-blue">等级1</span>
+        </div>
+        <div class="route-item">
+          <div class="ri-line"><div class="ri-route">认证入驻</div><div class="ri-time">审核通过后展示认证物流标识，搜索权重略高，赠1张置顶券</div></div>
+          <span class="tag tag-green">等级2</span>
+        </div>
+        <div class="route-item">
+          <div class="ri-line"><div class="ri-route">VIP会员</div><div class="ri-time">VIP标识，高权重，每月赠置顶券和首页广告体验券</div></div>
+          <span class="tag tag-gold">等级3</span>
+        </div>
+        <div class="route-item">
+          <div class="ri-line"><div class="ri-route">旗舰会员</div><div class="ri-time">包含VIP权益，用户搜索经营专线时发送站内私信提醒</div></div>
+          <span class="tag tag-orange">等级4</span>
+        </div>
+      </div>
+      <div class="info-note" style="margin-top:12px">支付后会员权益即时生效；权益已生效或推广已展示后原则上不支持退款，审核不通过或平台原因按后台规则处理。</div>
+    </div>
+  </div>
+
+  <!-- Logistics Verification -->
+  <div class="screen page" id="page-logistics-verification">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>认证资料</div>
+    <div style="padding:16px">
+      <div class="info-note" style="margin-bottom:16px">认证资料归属于当前账号；同一营业执照编号、手机号或主体重复申请时不重复发放认证赠券。</div>
+      <div class="form-group">
+        <div class="form-label"><span class="required">*</span> 物流公司名称</div>
+        <input class="form-input" value="长沙顺达物流">
+      </div>
+      <div class="form-group">
+        <div class="form-label"><span class="required">*</span> 营业执照编号</div>
+        <input class="form-input" placeholder="请输入统一社会信用代码">
+      </div>
+      <div class="form-group">
+        <div class="form-label"><span class="required">*</span> 营业执照照片</div>
+        <div style="width:100%;height:120px;border:2px dashed var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-hint);font-size:13px" onclick="showToast('选择营业执照照片')">📷 点击上传营业执照</div>
+      </div>
+      <div class="form-group">
+        <div class="form-label"><span class="required">*</span> 联系手机号</div>
+        <input class="form-input" value="138****6789">
+      </div>
+      <div class="form-group">
+        <div class="form-label">经营专线</div>
+        <input class="form-input" value="长沙→广州、长沙→深圳、长沙→东莞">
+      </div>
+      <button class="btn btn-primary btn-lg btn-block" onclick="showToast('✅ 认证资料已提交，等待后台审核')">提交审核</button>
+    </div>
+  </div>
+
+  <!-- Promotion Coupons -->
+  <div class="screen page" id="page-promotion-coupons">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>推广券包</div>
+    <div class="coupon-card">
+      <div class="coupon-head">
+        <div class="coupon-title">湘圈付费置顶券</div>
+        <span class="tag tag-gold">1张可用</span>
+      </div>
+      <div class="coupon-desc">发布湘圈动态时可抵扣 9.9 元置顶推广，展示到湘圈顶部和首页付费推广条。</div>
+      <div class="coupon-actions">
+        <button class="btn btn-primary btn-sm" onclick="switchTab('xiang');togglePublish()">去发布</button>
+        <button class="btn btn-outline btn-sm" onclick="showToast('查看使用记录')">使用记录</button>
+      </div>
+    </div>
+    <div class="coupon-card">
+      <div class="coupon-head">
+        <div class="coupon-title">首页广告轮播位限时体验券</div>
+        <span class="tag tag-blue">1张待排期</span>
+      </div>
+      <div class="coupon-desc">用于申请首页轮播广告展示，由后台审核素材和排期后生效。</div>
+      <div class="coupon-actions">
+        <button class="btn btn-primary btn-sm" onclick="showToast('✅ 已提交首页广告排期申请')">申请排期</button>
+        <button class="btn btn-outline btn-sm" onclick="showToast('上传广告素材')">上传素材</button>
+      </div>
+    </div>
+    <div class="coupon-card">
+      <div class="coupon-head">
+        <div class="coupon-title">线路推广券</div>
+        <span class="tag tag-green">1张可用</span>
+      </div>
+      <div class="coupon-desc">用于指定一条经营线路在搜索结果中获得限时推广展示。</div>
+      <div class="coupon-actions">
+        <button class="btn btn-primary btn-sm" onclick="showToast('✅ 已启用长沙→广州线路推广')">启用线路推广</button>
+        <button class="btn btn-outline btn-sm" onclick="navigateTo('logistics-member')">选择线路</button>
+      </div>
+    </div>
+    <div class="info-note" style="margin:12px 16px">券使用后进入审核或展示流程；已展示、已排期或会员权益已生效后原则上不支持退款，审核不通过或平台原因可按规则退回/补偿。</div>
+  </div>
+
+  <!-- Business Leads -->
+  <div class="screen page" id="page-business-leads">
+    <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>我的商机</div>
+    <div style="display:flex;border-bottom:1px solid var(--border);background:var(--card)">
+      <div class="hot-tab active" style="border-bottom:none">全部</div>
+      <div class="hot-tab" style="border-bottom:none">授权商机</div>
+      <div class="hot-tab" style="border-bottom:none">搜索提醒</div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-head">
+        <div class="lead-title">货主请求联系</div>
+        <span class="tag tag-green">已授权</span>
+      </div>
+      <div class="lead-desc">张先生查看了长沙→广州专线并点击“让物流联系我”，联系方式仅对长沙顺达物流可见。</div>
+      <div class="oc-footer">
+        <span class="oc-time">2026-06-10 14:20</span>
+        <button class="btn btn-primary btn-sm" onclick="navigateTo('chat-detail')">去留言</button>
+      </div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-head">
+        <div class="lead-title">代采买委托</div>
+        <span class="tag tag-orange">待跟进</span>
+      </div>
+      <div class="lead-desc">五金建材采购委托，预算 ¥800，关联物流为长沙顺达物流，商家来源为空。</div>
+      <div class="oc-footer">
+        <span class="oc-time">2026-06-05 14:30</span>
+        <button class="btn btn-outline btn-sm" onclick="showToast('查看委托详情')">查看详情</button>
+      </div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-head">
+        <div class="lead-title">旗舰搜索提醒</div>
+        <span class="tag tag-blue">匿名</span>
+      </div>
+      <div class="lead-desc">有用户搜索“长沙→广州 专线”，匹配到本公司经营线路。匿名搜索商机按频控规则聚合提醒。</div>
+      <div class="oc-footer">
+        <span class="oc-time">今天 09:40</span>
+        <span class="tag tag-blue">不可见联系方式</span>
+      </div>
+    </div>
+  </div>
+
   <!-- My Orders -->
   <div class="screen page" id="page-my-orders">
     <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>我的订单</div>
@@ -997,11 +1198,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
       <div class="hot-tab" style="border-bottom:none">进行中</div>
       <div class="hot-tab" style="border-bottom:none">已完成</div>
     </div>
-    <div style="padding-top:8px">
+    <div class="info-note" style="margin:12px 16px">这里展示委托记录、会员订单和推广订单，不代表平台担保交易；联系人授权可在对应委托中撤回。</div>
+    <div style="padding-top:0">
       <div class="order-card" onclick="showToast('订单详情')">
         <div class="oc-header">
           <span class="oc-no">单号：PC20260605001</span>
-          <span class="oc-status pending">采购中</span>
+          <span class="oc-status pending">沟通中</span>
         </div>
         <div class="oc-body">
           采购品类：五金建材<br>
@@ -1026,7 +1228,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
         </div>
         <div class="oc-footer">
           <span class="oc-time">2026-06-01 09:15</span>
-          <span class="tag tag-green">已签收</span>
+          <span class="tag tag-green">委托完成</span>
         </div>
       </div>
     </div>
@@ -1065,6 +1267,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
   <!-- Chat Detail -->
   <div class="screen page" id="page-chat-detail">
     <div class="sub-page-header"><span class="back" onclick="goBack()">‹</span>长沙顺达物流</div>
+    <div class="info-note" style="margin:12px 16px 0">站内留言用于异步沟通和业务通知，不保证实时在线回复。</div>
     <div class="chat-messages">
       <div class="chat-bubble received">您好！您提交的代采买需求已收到 📋</div>
       <div class="chat-bubble received">不锈钢螺丝 500个 + 镀锌角铁 20根，预算 800 以内对吧？我这边马上去高桥市场采购</div>
@@ -1075,7 +1278,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
       <div class="chat-bubble sent">👍 好的，辛苦您了</div>
     </div>
     <div class="chat-input-bar">
-      <input placeholder="输入消息...">
+      <input placeholder="输入留言...">
       <div class="send-btn">→</div>
     </div>
   </div>
@@ -1129,6 +1332,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
         </div>
         <div class="ppo-switch" id="paid-switch" onclick="togglePaidSwitch()"></div>
       </div>
+      <div class="pp-paid-note">可使用湘圈付费置顶券抵扣；若微信支付后已展示或已置顶，原则上不支持退款。</div>
 
       <div class="pp-tag-input">
         <span class="pp-tag">#长沙→广州 <span class="remove">×</span></span>
@@ -1153,6 +1357,41 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
         <button class="btn btn-outline" onclick="resetXcFilters()">重置</button>
         <button class="btn btn-primary" onclick="applyXcFilters()">确定</button>
       </div>
+    </div>
+  </div>
+
+  <div class="overlay hidden" id="city-picker-overlay" onclick="if(event.target===this)toggleCityPicker(false)">
+    <div class="sheet">
+      <div class="sheet-title" id="city-picker-title">选择城市</div>
+      <div class="city-grid">
+        <div class="city-option" onclick="chooseCity('长沙')">长沙</div>
+        <div class="city-option" onclick="chooseCity('广州')">广州</div>
+        <div class="city-option" onclick="chooseCity('深圳')">深圳</div>
+        <div class="city-option" onclick="chooseCity('东莞')">东莞</div>
+        <div class="city-option" onclick="chooseCity('武汉')">武汉</div>
+        <div class="city-option" onclick="chooseCity('宜昌')">宜昌</div>
+        <div class="city-option" onclick="chooseCity('杭州')">杭州</div>
+        <div class="city-option" onclick="chooseCity('株洲')">株洲</div>
+        <div class="city-option" onclick="chooseCity('湘潭')">湘潭</div>
+      </div>
+      <div class="sheet-cancel" onclick="toggleCityPicker(false)">取消</div>
+    </div>
+  </div>
+
+  <div class="overlay hidden" id="contact-request-overlay" onclick="if(event.target===this)toggleContactRequest(false)">
+    <div class="sheet">
+      <div class="sheet-title">让物流联系我</div>
+      <div class="info-note" style="margin-bottom:12px">提交后仅授权长沙顺达物流查看联系方式，其他物流公司不可见；需求关闭或撤回授权后停止展示。</div>
+      <div class="form-group">
+        <div class="form-label"><span class="required">*</span> 联系方式</div>
+        <input class="form-input" value="138****6789" placeholder="手机号 / 微信号">
+      </div>
+      <div class="form-group">
+        <div class="form-label">补充说明</div>
+        <textarea class="form-textarea" placeholder="例如货物类型、出发地、到达地、希望联系时间"></textarea>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="submitContactRequest()">提交给物流公司</button>
+      <div class="sheet-cancel" onclick="toggleContactRequest(false)">取消</div>
     </div>
   </div>
 </div>
@@ -1228,8 +1467,38 @@ function swapHomeCities() {
 }
 
 // ==================== CITY PICKER ====================
+let cityPickerTarget = 'from';
+
+function showHomeCityPicker(type) {
+  showCityPicker('home-' + type);
+}
+
 function showCityPicker(type) {
-  showToast('选择' + (type === 'from' ? '出发' : '目的') + '城市');
+  cityPickerTarget = type;
+  const title = document.getElementById('city-picker-title');
+  const isTo = type === 'to' || type === 'home-to';
+  if (title) title.textContent = '选择' + (isTo ? '目的' : '出发') + '城市';
+  toggleCityPicker(true);
+}
+
+function toggleCityPicker(force) {
+  const overlay = document.getElementById('city-picker-overlay');
+  if (!overlay) return;
+  const shouldShow = typeof force === 'boolean' ? force : overlay.classList.contains('hidden');
+  overlay.classList.toggle('hidden', !shouldShow);
+}
+
+function chooseCity(city) {
+  const targetMap = {
+    'home-from': 'home-from-city',
+    'home-to': 'home-to-city',
+    from: 'from-city',
+    to: 'to-city',
+  };
+  const target = document.getElementById(targetMap[cityPickerTarget]);
+  if (target) target.textContent = city;
+  toggleCityPicker(false);
+  showToast('已选择 ' + city);
 }
 
 function setFromCity(el, city) {
@@ -1269,6 +1538,18 @@ function addDemandRow() {
     <span class="remove-row" onclick="this.parentElement.remove()">×</span>
   `;
   container.appendChild(row);
+}
+
+function toggleContactRequest(force) {
+  const overlay = document.getElementById('contact-request-overlay');
+  if (!overlay) return;
+  const shouldShow = typeof force === 'boolean' ? force : overlay.classList.contains('hidden');
+  overlay.classList.toggle('hidden', !shouldShow);
+}
+
+function submitContactRequest() {
+  toggleContactRequest(false);
+  showToast('✅ 已授权并发送给长沙顺达物流');
 }
 
 // ==================== PAID AD STRIP ====================
@@ -1382,7 +1663,7 @@ function publishPost() {
   const identity = document.getElementById('publish-identity');
   document.getElementById('publish-overlay').classList.add('hidden');
   if (isPaidPublish) {
-    showToast(`✅ ${identity ? identity.value : '动态'} 发布成功，将在主页付费推广展示`);
+    showToast(`✅ ${identity ? identity.value : '动态'} 发布成功，微信支付后置顶展示`);
   } else {
     showToast(`✅ ${identity ? identity.value : '动态'} 发布成功`);
   }
@@ -1411,8 +1692,8 @@ function renderXcFilterSheet() {
   identityContainer.innerHTML = xcIdentityOptions.map(option => `
     <span class="filter-option${draftXcIdentity === option ? ' active' : ''}" onclick="setDraftXcIdentity('${option}')">${option === 'all' ? '全部' : option}</span>
   `).join('');
-  targetContainer.innerHTML = xcTargetOptions.map(option => `
-    <span class="filter-option${draftXcTarget === option ? ' active' : ''}${allowedTargets.includes(option) ? '' : ' disabled'}" onclick="setDraftXcTarget('${option}')">${option === 'all' ? '全部' : option}</span>
+  targetContainer.innerHTML = xcTargetOptions.filter(option => allowedTargets.includes(option)).map(option => `
+    <span class="filter-option${draftXcTarget === option ? ' active' : ''}" onclick="setDraftXcTarget('${option}')">${option === 'all' ? '全部' : option}</span>
   `).join('');
 }
 
@@ -1467,12 +1748,12 @@ function updateXcFilterButton() {
 }
 
 const xcPosts = [
-  { user:'顺达物流·李经理', role:'logistics', roleText:'物流公司', identity:'物流', target:'找货主', status:'物流-找货主', paid:true, content:'🚛 长沙顺达物流，主营长沙↔珠三角专线运输！\n\n✅ 零担/整车/大件均可\n✅ 支持代采买服务（高桥大市场）\n✅ 天天发车，时效1-2天\n\n有需要发货的货主欢迎联系！', tags:['#长沙→广州','#长沙→深圳','#代采买'], likes:28, comments:8, time:'1小时前' },
-  { user:'安捷物流·陈总', role:'logistics', roleText:'物流公司', identity:'物流', target:'找商家', status:'物流-找商家', paid:true, content:'📢 湖南安捷物流，专注湖南→湖北专线！\n\n线路覆盖：长沙→武汉/宜昌/襄阳\n服务：零担/整车 | 支持代采买 | 三湘南湖市场合作\n\n欢迎有稳定货源的商家合作 🤝', tags:['#长沙→武汉','#湖北专线','#新客优惠'], likes:15, comments:4, time:'3小时前' },
+  { user:'顺达物流·李经理', role:'logistics', roleText:'物流公司', identity:'物流', target:'找货主', status:'物流-找货主', paid:true, vip:true, certified:true, content:'🚛 长沙顺达物流，主营长沙↔珠三角专线运输！\n\n✅ 零担/整车/大件均可\n✅ 支持代采买服务（高桥大市场）\n✅ 天天发车，时效1-2天\n\n有需要发货的货主欢迎联系！', tags:['#长沙→广州','#长沙→深圳','#代采买'], likes:28, comments:8, time:'1小时前' },
+  { user:'安捷物流·陈总', role:'logistics', roleText:'物流公司', identity:'物流', target:'找商家', status:'物流-找商家', paid:true, vip:true, certified:true, content:'📢 湖南安捷物流，专注湖南→湖北专线！\n\n线路覆盖：长沙→武汉/宜昌/襄阳\n服务：零担/整车 | 支持代采买 | 三湘南湖市场合作\n\n欢迎有稳定货源的商家合作 🤝', tags:['#长沙→武汉','#湖北专线','#新客优惠'], likes:15, comments:4, time:'3小时前' },
   { user:'张货主', role:'owner', roleText:'货主', identity:'货主', target:'找物流', status:'货主-找物流', paid:false, content:'求长沙→广州的专线，有一批五金配件要发，大概3吨左右，要求2天内到。有做这条线的请联系我！', tags:['#长沙→广州','#五金配件','#急发'], likes:12, comments:5, time:'10分钟前' },
   { user:'王货主', role:'owner', roleText:'货主', identity:'货主', target:'找采购', status:'货主-找采购', paid:false, content:'在高桥大市场这边，想找人帮忙采购一批日用百货然后发到武汉，有没有物流公司能做代采买的？', tags:['#代采买','#长沙→武汉','#日用百货'], likes:6, comments:3, time:'2小时前' },
-  { user:'宏发百货', role:'merchant', roleText:'商家', identity:'商家', target:'找货主', status:'商家-找货主', paid:false, content:'高桥市场现货供应塑料收纳箱、日用百货，支持批量出货，正在找长期合作货主。', tags:['#高桥市场','#日用百货','#现货供应'], likes:9, comments:2, time:'4小时前' },
-  { user:'张记五金批发', role:'merchant', roleText:'商家', identity:'商家', target:'找物流', status:'商家-找物流', paid:false, content:'门店近期有一批五金建材要发往广州和东莞，想对接稳定的专线物流，长期合作优先。', tags:['#五金建材','#广州专线','#长期合作'], likes:5, comments:1, time:'5小时前' },
+  { user:'宏发百货', role:'merchant', roleText:'商家', identity:'商家', target:'找货主', status:'商家-找货主', paid:false, verifiedMerchant:true, content:'高桥市场现货供应塑料收纳箱、日用百货，支持批量出货，正在找长期合作货主。', tags:['#高桥市场','#日用百货','#现货供应'], likes:9, comments:2, time:'4小时前' },
+  { user:'张记五金批发', role:'merchant', roleText:'商家', identity:'商家', target:'找物流', status:'商家-找物流', paid:false, verifiedMerchant:true, content:'门店近期有一批五金建材要发往广州和东莞，想对接稳定的专线物流，长期合作优先。', tags:['#五金建材','#广州专线','#长期合作'], likes:5, comments:1, time:'5小时前' },
   { user:'刘货主', role:'owner', roleText:'货主', identity:'其他', target:'其他', status:'其他', paid:false, content:'株洲服装批发市场的老板们看过来，长期发杭州线路，每次5-10包服装辅料，欢迎交流。', tags:['#株洲→杭州','#服装辅料','#长期合作'], likes:3, comments:2, time:'5小时前' },
 ];
 
@@ -1497,7 +1778,7 @@ function renderXcFeed(filter) {
       <div class="xp-header">
         <div class="xp-avatar">${p.role === 'owner' ? '👤' : p.role === 'merchant' ? '🏪' : '🚛'}</div>
         <div class="xp-user">
-          <div class="xp-name">${p.user} <span class="xp-role-badge ${p.role}">${p.roleText}</span></div>
+          <div class="xp-name">${p.user} <span class="xp-role-badge ${p.role}">${p.roleText}</span>${p.certified ? ' <span class="tag tag-green" style="font-size:10px">认证物流</span>' : ''}${p.vip ? ' <span class="tag tag-gold" style="font-size:10px">VIP</span>' : ''}${p.verifiedMerchant ? ' <span class="tag tag-orange" style="font-size:10px">已入驻</span>' : ''}</div>
           <div class="xp-role">${p.time}</div>
         </div>
       </div>
